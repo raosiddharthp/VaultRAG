@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>VaultRAG – Enterprise Private Knowledge Agent</title>
+  <meta name="description" content="Open-source, local-first RAG agent for secure enterprise knowledge bases with hallucination guardrails and source citation">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Space Mono', monospace;
+      background: white;
+      color: black;
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 20px;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    h1 {
+      color: #0066FF;
+      font-size: 2.4em;
+      border-bottom: 4px solid #0066FF;
+      padding-bottom: 15px;
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      color: #0066FF;
+      font-size: 1.8em;
+      margin-top: 3em;
+      border-bottom: 2px solid #0066FF;
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      color: #0066FF;
+      font-size: 1.4em;
+      margin-top: 2.5em;
+    }
+
+    p, ul, ol, li {
+      margin-bottom: 1.2em;
+    }
+
+    ul, ol {
+      padding-left: 2em;
+    }
+
+    a {
+      color: #0066FF;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .links {
+      margin-top: 80px;
+      padding-top: 30px;
+      border-top: 2px solid #0066FF;
+    }
+  </style>
+</head>
+<body>
+
+<h1>VaultRAG – Enterprise Private Knowledge Agent</h1>
+
+<h2>1. Description</h2>
+<p>An open-source, local-first Retrieval-Augmented Generation (RAG) agent designed for secure querying of enterprise internal knowledge bases. Users upload confidential documents (PDFs, internal wikis, SOPs, policy manuals) and ask natural-language questions. The agent retrieves relevant context, generates accurate responses with source citations, and applies guardrails to prevent hallucinations or off-topic answers. Built with LlamaIndex, Chroma vector store, and Ollama for completely offline, private execution — ideal for regulated industries and organizations with strict data governance requirements.</p>
+
+<h2>2. Executive Summary</h2>
+<p>VaultRAG addresses the core challenge of making enterprise knowledge accessible without compromising security. Traditional search fails on unstructured internal content, while cloud RAG solutions raise privacy concerns. VaultRAG enables natural-language interaction with proprietary documents entirely on-prem or on the user's device. With built-in hallucination detection, source attribution, and query moderation, it delivers trustworthy answers while maintaining zero data exfiltration. The open-source design allows full auditability and customization for enterprise needs.</p>
+
+<h2>3. Business Strategy</h2>
+
+<h3>3.1 Strategic Value Proposition</h3>
+<p>The agent reduces knowledge retrieval time by 70–90%, improves answer accuracy through context grounding, and eliminates data leakage risk. It empowers employees to self-serve information from scattered internal sources while enforcing governance controls. Primary value drivers: productivity gains, reduced support tickets, compliance assurance, and democratization of institutional knowledge.</p>
+
+<h3>3.2 Regulatory Strategy</h3>
+<p>No data leaves the device. All indexing and generation occur locally. Document uploads are never transmitted. The system includes configurable guardrails for sensitive topics. Open-source code enables security teams to review and harden implementation. Future extensions can add redaction and access logging without changing the core privacy model.</p>
+
+<h2>4. Users</h2>
+
+<h3>4.1 Target User Personas</h3>
+<ul>
+  <li><strong>Knowledge Worker</strong>: Needs fast answers from internal docs without searching multiple systems.</li>
+  <li><strong>Compliance Officer</strong>: Requires auditable, grounded responses from policy documents.</li>
+  <li><strong>IT/Security Admin</strong>: Deploys and manages the tool on-prem with full control.</li>
+  <li><strong>Consultant / Analyst</strong>: Uses with client data in air-gapped environments.</li>
+</ul>
+
+<h3>4.2 Lightweight Requirements and User Stories</h3>
+<p>As a user, I want to:</p>
+<ul>
+  <li>Upload internal documents and query them conversationally.</li>
+  <li>Receive answers with direct source citations from uploaded files.</li>
+  <li>Be confident answers are grounded (no hallucinations).</li>
+  <li>Ask follow-up questions with full context retention.</li>
+  <li>Run everything locally with no internet or cloud dependency.</li>
+  <li>Export conversations for documentation.</li>
+</ul>
+
+<h3>4.3 User Journey Map</h3>
+<ol>
+  <li>User starts app → uploads document collection (PDFs, Markdown, etc.).</li>
+  <li>Agent indexes documents locally → confirms ready.</li>
+  <li>User asks question → agent retrieves relevant passages.</li>
+  <li>Agent generates response with source links → displays citations.</li>
+  <li>User asks follow-ups → agent maintains conversation context.</li>
+  <li>User exports thread or continues querying.</li>
+</ol>
+
+<h2>5. Design and Architecture</h2>
+
+<h3>5.1 Phase A: Vision</h3>
+<p>Create a secure, trustworthy RAG system that brings natural-language access to enterprise knowledge while keeping all data fully private and local.</p>
+
+<h3>5.2 Phase B: Business</h3>
+<p>Core capabilities: document ingestion, semantic retrieval, grounded generation, hallucination guardrails, source citation. Success metrics: answer accuracy, citation relevance, query response time, user trust score.</p>
+
+<h3>5.3 Phase C: Information</h3>
+<p>Local vector store (Chroma) with document chunks and metadata. Conversation state maintained in memory. All data persisted only on user device.</p>
+
+<h3>5.4 Phase D: Technology</h3>
+<ul>
+  <li>Indexing & Retrieval: LlamaIndex with local embeddings</li>
+  <li>Vector Store: Chroma (persistent local database)</li>
+  <li>LLM Backend: Ollama (Llama 3.1 or Mistral default)</li>
+  <li>Guardrails: LlamaGuard or custom self-checking prompts</li>
+  <li>Frontend: Streamlit for document upload and chat interface</li>
+  <li>Output: Responses with inline source citations</li>
+</ul>
+
+<h2>6. Rollout and Roadmap</h2>
+
+<h3>6.1 Current State</h3>
+<p>MVP with PDF/Markdown ingestion, semantic search, grounded responses, basic guardrails, Streamlit demo.</p>
+
+<h3>6.2 Future State</h3>
+<ul>
+  <li>Multi-format support (Office docs, Confluence export)</li>
+  <li>Advanced guardrails (PII redaction, topic filtering)</li>
+  <li>Conversation export and sharing</li>
+  <li>Enterprise deployment package (Docker/K8s)</li>
+</ul>
+
+<h2>7. Multi-Agent Model</h2>
+<p>Future extension: decompose into Retriever, Generator, Guardrail, and Citation agents using LangGraph for more sophisticated control.</p>
+
+<h2>8. Intelligence Platform</h2>
+
+<h3>8.1 Unified Intelligence Stack Architecture</h3>
+<p>LlamaIndex orchestrates indexing and retrieval. Ollama handles local generation. All components run in isolated local environment.</p>
+
+<h3>8.2 The RAG Component</h3>
+<p>Hybrid retrieval with re-ranking. Query rewriting for better precision. Local embedding model (nomic-embed-text default).</p>
+
+<h3>8.3 Observability Layer</h3>
+<p>Local logging of queries, retrieved chunks, and guardrail triggers for user review.</p>
+
+<h2>9. The Model Lifecycle</h2>
+<ul>
+  <li>Default: Llama 3.1 8B for balance of speed and quality</li>
+  <li>Configurable model selection via Ollama</li>
+  <li>Version-controlled prompt templates</li>
+  <li>Evaluation against internal test queries</li>
+</ul>
+
+<h2>10. Infrastructure</h2>
+
+<h3>10.1 Blueprint</h3>
+<ul>
+  <li>Local: Single binary or Docker container</li>
+  <li>Hosted demo: Hugging Face Spaces (Streamlit)</li>
+  <li>Enterprise: On-prem deployment with air-gap support</li>
+</ul>
+
+<h3>10.2 Security</h3>
+<p>Zero external network calls. All data remains local. Open code for security review.</p>
+
+<h3>10.3 Governance and Compliance</h3>
+<p>Configurable query filtering. Transparent retrieval traces. No telemetry by default.</p>
+
+<h3>10.4 SRE</h3>
+<p>Local execution with error recovery. Index rebuild on demand.</p>
+
+<h2>11. Impact & Outcomes</h2>
+<p>Expected outcomes:</p>
+<ul>
+  <li>70–90% reduction in time to find internal information</li>
+  <li>Increased trust in AI responses through grounding and guardrails</li>
+  <li>Zero risk of proprietary data leakage</li>
+  <li>Foundation for secure enterprise knowledge assistants</li>
+  <li>Portfolio demonstration of privacy-first agentic AI</li>
+</ul>
+
+<div class="links">
+  <h2>Supporting Documentation</h2>
+  <ul>
+    <li><a href="SAMPLE_QUERIES.html">Sample Queries & Responses</a></li>
+    <li><a href="GUARDRAIL_RULES.html">Hallucination & Moderation Guardrails</a></li>
+    <li><a href="TECH_STACK.html">Technical Stack & Local Setup</a></li>
+  </ul>
+</div>
+
+</body>
+</html>
