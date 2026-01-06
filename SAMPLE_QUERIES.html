@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sample Queries & Responses – VaultRAG</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Space Mono', monospace;
+      background: white;
+      color: black;
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 20px;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    h1 {
+      color: #0066FF;
+      font-size: 2.4em;
+      border-bottom: 4px solid #0066FF;
+      padding-bottom: 15px;
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      color: #0066FF;
+      font-size: 1.8em;
+      margin-top: 3em;
+      border-bottom: 2px solid #0066FF;
+      padding-bottom: 8px;
+    }
+
+    .query {
+      background: #f8f8f8;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 30px 0;
+      border-left: 5px solid #0066FF;
+    }
+
+    .user {
+      font-weight: 700;
+      color: #0066FF;
+    }
+
+    .citation {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 10px;
+    }
+
+    .back {
+      margin-top: 80px;
+      padding-top: 30px;
+      border-top: 2px solid #0066FF;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Sample Queries & Responses</h1>
+
+<p>These examples demonstrate VaultRAG's ability to provide accurate, grounded answers from uploaded internal documents with direct source citations and hallucination prevention.</p>
+
+<div class="query">
+  <p class="user">User: What is our current policy on remote work expenses?</p>
+  <p><strong>Agent:</strong> According to the "Employee Expense Policy v3.2" (uploaded March 2025), remote employees are eligible for reimbursement of home internet (up to $75/month) and ergonomic equipment (up to $500 one-time) with manager approval. Standard office supplies are not reimbursable for remote workers.</p>
+  <p class="citation">Source: Employee Expense Policy v3.2 – Section 4.3 "Remote Work Allowances" (pages 12–13)</p>
+</div>
+
+<div class="query">
+  <p class="user">User: How do we handle customer data retention for GDPR compliance?</p>
+  <p><strong>Agent:</strong> Per the "Global Data Retention Standard" (updated January 2025), personal data from EU customers must be retained for no longer than 7 years after last interaction, with automated deletion scheduled via the Data Governance Platform. Exceptions require Legal approval and documentation.</p>
+  <p class="citation">Source: Global Data Retention Standard – Section 6.2 "GDPR Requirements" (page 8)</p>
+</div>
+
+<div class="query">
+  <p class="user">User: Who won the 2024 World Series?</p>
+  <p><strong>Agent:</strong> I can only answer questions based on the documents you have uploaded. I don't have access to external or real-time information. Please ask about your internal policies, procedures, or uploaded knowledge base.</p>
+  <p class="citation">Guardrail triggered: Query outside document scope</p>
+</div>
+
+<div class="query">
+  <p class="user">User: Summarize the Q4 2025 sales strategy presentation</p>
+  <p><strong>Agent:</strong> The Q4 2025 Sales Strategy focuses on three pillars: (1) Enterprise upsell targeting existing accounts with >$100k ARR (goal: 25% growth), (2) New logo acquisition in healthcare vertical (target 40 new customers), (3) Partner co-selling program expansion with AWS and Microsoft (projected 15% of revenue). Key initiatives include AI-powered deal scoring and personalized outreach campaigns.</p>
+  <p class="citation">Source: Q4 2025 Sales Strategy Deck – Slides 5–12</p>
+</div>
+
+<div class="query">
+  <p class="user">User: What is the meaning of life?</p>
+  <p><strong>Agent:</strong> I'm designed to help with questions about your uploaded internal documents only. Philosophical questions are outside my scope.</p>
+  <p class="citation">Guardrail triggered: Off-topic / non-document query</p>
+</div>
+
+<p>These examples show:</p>
+<ul>
+  <li>Accurate grounding in uploaded content</li>
+  <li>Direct source citation for trust</li>
+  <li>Graceful handling of out-of-scope queries</li>
+  <li>Natural, professional response style</li>
+</ul>
+
+<div class="back">
+  <a href="index.html">← Back to Main Design</a>
+</div>
+
+</body>
+</html>

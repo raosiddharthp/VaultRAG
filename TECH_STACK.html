@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Technical Stack & Local Setup – VaultRAG</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Space Mono', monospace;
+      background: white;
+      color: black;
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 20px;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    h1 {
+      color: #0066FF;
+      font-size: 2.4em;
+      border-bottom: 4px solid #0066FF;
+      padding-bottom: 15px;
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      color: #0066FF;
+      font-size: 1.8em;
+      margin-top: 3em;
+      border-bottom: 2px solid #0066FF;
+      padding-bottom: 8px;
+    }
+
+    pre {
+      background: #f8f8f8;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    .back {
+      margin-top: 80px;
+      padding-top: 30px;
+      border-top: 2px solid #0066FF;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Technical Stack & Local Setup</h1>
+
+<h2>Core Technology Stack</h2>
+
+<ul>
+  <li><strong>LLM Backend</strong>: Ollama (local execution of open-source models)</li>
+  <li><strong>Default Model</strong>: Llama 3.1 8B Instruct (balance of speed and quality)</li>
+  <li><strong>RAG Framework</strong>: LlamaIndex (indexing, retrieval, query engine)</li>
+  <li><strong>Vector Store</strong>: Chroma (persistent local embeddings)</li>
+  <li><strong>Embedding Model</strong>: nomic-embed-text (local, high-performance)</li>
+  <li><strong>Guardrails</strong>: Custom self-checking prompts + LlamaGuard model</li>
+  <li><strong>Frontend</strong>: Streamlit (simple, interactive chat + document upload)</li>
+</ul>
+
+<h2>Local Installation Guide</h2>
+
+<pre>
+# 1. Install Ollama
+curl -fsSL https://ollama.com/install.sh | sh
+
+# 2. Pull the default model
+ollama pull llama3.1:8b
+
+# 3. Clone the repo
+git clone https://github.com/raosiddharthp/vaultRAG.git
+cd vaultRAG
+
+# 4. Install Python dependencies
+pip install -r requirements.txt
+
+# 5. Run the app
+streamlit run app.py
+</pre>
+
+<h2>Supported Document Formats</h2>
+
+<ul>
+  <li>PDF (.pdf)</li>
+  <li>Markdown (.md)</li>
+  <li>Plain text (.txt)</li>
+  <li>Future: Word, PowerPoint, Confluence export</li>
+</ul>
+
+<h2>System Requirements</h2>
+
+<ul>
+  <li>8GB RAM minimum (16GB recommended)</li>
+  <li>10GB disk space for models and indexes</li>
+  <li>macOS, Linux, or Windows (WSL2)</li>
+</ul>
+
+<h2>Privacy & Security</h2>
+
+<ul>
+  <li>No internet connection required after model download</li>
+  <li>All data stays on your device</li>
+  <li>Open-source code for review and customization</li>
+  <li>No telemetry or logging by default</li>
+</ul>
+
+<div class="back">
+  <a href="index.html">← Back to Main Design</a>
+</div>
+
+</body>
+</html>

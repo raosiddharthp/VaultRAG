@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Guardrail Rules Engine – VaultRAG</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Space Mono', monospace;
+      background: white;
+      color: black;
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 20px;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    h1 {
+      color: #0066FF;
+      font-size: 2.4em;
+      border-bottom: 4px solid #0066FF;
+      padding-bottom: 15px;
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      color: #0066FF;
+      font-size: 1.8em;
+      margin-top: 3em;
+      border-bottom: 2px solid #0066FF;
+      padding-bottom: 8px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 30px 0;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background: #f0f8ff;
+      color: #0066FF;
+      font-weight: 700;
+    }
+
+    .back {
+      margin-top: 80px;
+      padding-top: 30px;
+      border-top: 2px solid #0066FF;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Guardrail Rules Engine</h1>
+
+<p>VaultRAG includes multiple layers of guardrails to ensure responses are accurate, appropriate, and strictly grounded in uploaded documents. These rules prevent hallucinations, off-topic answers, and potential misuse.</p>
+
+<h2>Guardrail Layers</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Purpose</th>
+      <th>Mechanism</th>
+      <th>Response When Triggered</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Scope Guardrail</td>
+      <td>Prevents answers outside uploaded documents</td>
+      <td>Pre-query check for external knowledge requests</td>
+      <td>"I can only answer based on uploaded documents"</td>
+    </tr>
+    <tr>
+      <td>Retrieval Confidence</td>
+      <td>Ensures sufficient relevant context</td>
+      <td>Minimum similarity threshold for retrieved chunks</td>
+      <td>"I don't have sufficient information in the uploaded documents to answer this"</td>
+    </tr>
+    <tr>
+      <td>Hallucination Detection</td>
+      <td>Catches ungrounded claims</td>
+      <td>Self-checking prompt + LlamaGuard model</td>
+      <td>Re-generates or refuses with explanation</td>
+    </tr>
+    <tr>
+      <td>Topic Moderation</td>
+      <td>Blocks inappropriate queries</td>
+      <td>Keyword + semantic filtering</td>
+      <td>"This query is outside my scope"</td>
+    </tr>
+    <tr>
+      <td>Citation Enforcement</td>
+      <td>Ensures all claims are traceable</td>
+      <td>Post-generation validation</td>
+      <td>Forces inclusion of source references</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Hallucination Detection Flow</h2>
+
+<ol>
+  <li>Initial response generated with retrieved context</li>
+  <li>Self-check prompt: "Are all claims in the response directly supported by the provided context? Answer YES or NO"</li>
+  <li>If NO → re-generate with stricter instructions</li>
+  <li>If still NO → respond: "I don't have sufficient information to answer accurately"</li>
+</ol>
+
+<h2>Configurable Enterprise Controls (Future)</h2>
+
+<ul>
+  <li>Topic allow/block lists</li>
+  <li>Department-specific document access</li>
+  <li>Response length limits</li>
+  <li>Audit logging of all queries</li>
+  <li>Custom disclaimer injection</li>
+</ul>
+
+<p>These guardrails ensure VaultRAG is suitable for sensitive enterprise environments while maintaining high utility.</p>
+
+<div class="back">
+  <a href="index.html">← Back to Main Design</a>
+</div>
+
+</body>
+</html>
