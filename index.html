@@ -1,942 +1,1272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VaultRAG - Enterprise Private Knowledge Agent</title>
-    <link rel="stylesheet" href="style.css">
-    </head>
-<body class="analyzer-theme project-page">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VaultRAG — Factory Floor Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --steel-900: #0e1117;
+      --steel-800: #161c27;
+      --steel-700: #1e2535;
+      --steel-600: #262f42;
+      --steel-500: #344057;
+      --steel-400: #4a5568;
+      --steel-300: #718096;
+      --steel-200: #a0aec0;
+      --steel-100: #cbd5e0;
+      --steel-50:  #e8edf5;
 
-    
+      --amber-500: #f59e0b;
+      --amber-400: #fbbf24;
+      --amber-300: #fcd34d;
+      --amber-600: #d97706;
+      --amber-glow: rgba(245,158,11,0.15);
+      --amber-glow-strong: rgba(245,158,11,0.25);
 
-    <div class="main-content">
-        <h1>VaultRAG – Enterprise Private Knowledge Agent<br>
-            <small>Local-First RAG for Secure, Air-Gapped Internal Intelligence</small>
-        </h1>
-        
-        <p class="project-description">
-            VaultRAG is an open-source, local-first Retrieval-Augmented Generation (RAG) agent designed for secure querying of enterprise internal knowledge bases. Built with LlamaIndex, Chroma vector store, and Ollama for completely offline, private execution — ideal for regulated industries and organizations with strict data governance requirements.
-        </p>
+      --danger: #ef4444;
+      --success: #10b981;
+      --info: #3b82f6;
 
-        <div id="integration-highlights" class="section">
-          <h3>Open-Source Integration Highlights</h3>
-          <ul style="font-size: 1.1em; line-height: 1.8; columns: 2; column-gap: 40px; list-style: none; padding-left: 0;">
-              <li>• <strong>LlamaIndex</strong> for advanced RAG orchestration and hierarchical data indexing</li>
-              <li>• <strong>Ollama</strong> for local LLM serving (Llama-3/Mistral) ensuring 100% data privacy</li>
-              <li>• <strong>ChromaDB</strong> as the high-performance local vector store for document embeddings</li>
-              <li>• <strong>Hugging Face Transformers</strong> for local embedding generation via Sentence-BERT</li>
-              <li>• <strong>PyMuPDF & Unstructured.io</strong> for robust parsing of complex PDFs and wikis</li>
-              <li>• <strong>Giskard</strong> for automated vulnerability scanning and hallucination detection</li>
-              <li>• <strong>Docker</strong> for simplified, air-gapped containerization and deployment</li>
-          </ul>
-            </div>
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
 
-        <section id="executive-summary">
-          <div class="executive-summary" style="background: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 30px; margin: 40px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-            <h3 style="color: var(--primary); margin-top: 0; border-bottom: 2px solid var(--soft-bg); padding-bottom: 10px;">Executive Summary: VaultRAG Enterprise Intelligence</h3>
-            
-            <p style="font-size: 1.1rem; line-height: 1.6; color: #333; font-weight: 500; margin-bottom: 20px;">
-                <strong>Vision:</strong> Making enterprise knowledge accessible without compromising security by enabling natural-language interaction with proprietary documents entirely on-prem or on-device.
-            </p>
-        
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
-                <div>
-                    <h4 style="margin-bottom: 10px; font-size: 1rem; color: #333;">1. The Strategic Imperative</h4>
-                    <p style="font-size: 0.95rem; line-height: 1.6; color: #555;">
-                        Traditional search fails on unstructured internal content, while cloud-based RAG solutions raise significant privacy concerns. VaultRAG bridges this gap, providing a secure alternative to public LLMs for organizations with strict data sovereignty mandates.
-                    </p>
-                </div>
-                <div>
-                    <h4 style="margin-bottom: 10px; font-size: 1rem; color: #333;">2. The Solution: Trustworthy Private RAG</h4>
-                    <p style="font-size: 0.95rem; line-height: 1.6; color: #555;">
-                        VaultRAG delivers accurate answers with <strong>built-in hallucination detection</strong>, <strong>source attribution</strong>, and <strong>query moderation</strong>. Its open-source design ensures full auditability and easy customization for specific enterprise workflows.
-                    </p>
-                </div>
-            </div>
-        
-            <div style="margin-top: 25px; padding-top: 20px; border-top: 1px dashed #ddd;">
-                <h4 style="margin-bottom: 15px; font-size: 1rem; color: #333;">Quantifiable Operational Impact</h4>
-                <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; list-style: none; padding-left: 0; font-size: 0.9rem; color: #555;">
-                    <li>🛡️ <strong>Zero Data Exfiltration:</strong> Total isolation from public networks and external APIs.</li>
-                    <li>🔍 <strong>High-Fidelity Retrieval:</strong> Precise unbundling of complex PDFs, wikis, and SOPs.</li>
-                    <li>⚖️ <strong>Audit-Ready Design:</strong> Open-source stack allows for complete transparent security reviews.</li>
-                    <li>✅ <strong>Trustworthy Output:</strong> Source-cited responses that eliminate LLM "black-box" risks.</li>
-                </ul>
-            </div>
-        </div>
-            </div>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        </section>
+    html { scroll-behavior: smooth; }
 
-        <section id="business-strategy">
-          <h2 style="color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px;">Strategic Imperative: Mastering Private Intelligence</h2>
+    body {
+      background: var(--steel-900);
+      color: var(--steel-100);
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
 
-<p style="font-size: 1.1rem; line-height: 1.6; color: #333;">
-    Enterprise intelligence is often trapped in unstructured silos—SOPs, wikis, and policy manuals—creating a "Knowledge Tax" on employee productivity. <strong>VaultRAG</strong> bridges the gap between massive data volumes and secure, actionable insights without the risk of public LLM exposure.
-</p>
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
 
-<h3 style="color: var(--secondary); margin-top: 30px;">1. Strategic Value Proposition</h3>
-<table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; border: 1px solid #ddd;">
-    <thead>
-        <tr style="background-color: var(--soft-bg); text-align: left;">
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Strategic Pillar</th>
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Business Impact</th>
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Quantifiable Outcome</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Productivity Gains</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Empowers employees to self-serve information from scattered internal sources.</td>
-            <td style="padding: 10px; border: 1px solid #ddd; color: #006064; font-weight: bold;">70–90% Time Reduction</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Operational Efficiency</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Reduces internal support ticket volume by automating knowledge retrieval.</td>
-            <td style="padding: 10px; border: 1px solid #ddd; color: #006064; font-weight: bold;">Significant Ticket Deflection</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Data Sovereignty</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Enforces governance controls by eliminating data leakage risk.</td>
-            <td style="padding: 10px; border: 1px solid #ddd; color: #006064; font-weight: bold;">Zero Data Leakage</td>
-        </tr>
-    </tbody>
-</table>
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(14,17,23,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(245,158,11,0.15);
+    }
 
-<h3 style="color: var(--secondary); margin-top: 30px;">2. Regulatory Strategy: The Local-First Privacy Model</h3>
-<p style="font-size: 0.95rem; color: #555;">VaultRAG is architected to exceed the security requirements of regulated industries through a strict isolation model:</p>
+    .nav-brand {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 0.08em;
+      color: var(--amber-400);
+      text-decoration: none;
+    }
 
-<div style="background: #fdfdfd; border: 1px solid #eee; padding: 20px; border-radius: 8px; margin-top: 15px;">
-    <ul style="padding-left: 20px; line-height: 1.8; font-size: 0.95rem; color: #444;">
-        <li>🔹 <strong>Air-Gapped Ingestion:</strong> Document uploads are never transmitted; all indexing and generation occur locally on the device.</li>
-        <li>🔹 <strong>Configurable Guardrails:</strong> Built-in moderation for sensitive topics to ensure answers remain professional and on-topic.</li>
-        <li>🔹 <strong>Transparent Governance:</strong> Open-source code enables security teams to audit, review, and harden the implementation.</li>
-        <li>🔹 <strong>Future-Proof Compliance:</strong> Scalable model supports future redaction and access logging without altering the core privacy architecture.</li>
-    </ul>
-</div>
+    .nav-brand span { color: var(--steel-300); font-weight: 300; }
 
-<div style="background-color: var(--soft-bg); border-left: 5px solid var(--primary); padding: 20px; margin-top: 30px;">
-    <h4 style="margin-top: 0; color: var(--primary);">Strategic Outcome</h4>
-    <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">
-        By democratizing institutional knowledge through <strong>Context Grounding</strong>, VaultRAG transforms a compliance burden into a competitive advantage, ensuring accurate information is available to those who need it, exactly when they need it.
-    </p>
-</div>
-            </section>
+    nav ul {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
 
-        <section id="user-architecture">
-          <section id="vaultrag-personas" style="max-width: 1000px; margin: 40px auto 40px 0; clear: both; display: block;">
-            <h3 style="color: var(--primary); margin-bottom: 20px; border-left: 5px solid var(--secondary); padding-left: 15px; font-size: 1.5rem;">Target User Personas: Solving for Data Sovereignty</h3>
-            
-            <p style="font-size: 1.05rem; color: #555; margin-bottom: 25px; line-height: 1.6;">
-                VaultRAG is engineered for stakeholders in highly regulated sectors where institutional knowledge is vast but inaccessible due to strict air-gapped security requirements.
-            </p>
-        
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
-                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                        <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 15px;">KW</div>
-                        <div>
-                            <h4 style="margin: 0; color: var(--primary);">Knowledge Worker</h4>
-                            <p style="margin: 0; font-size: 0.85rem; color: #666;">Information Specialist</p>
-                        </div>
-                    </div>
-                    <p style="font-size: 0.9rem; line-height: 1.5; color: #333; flex-grow: 1;">
-                        <strong>Goals:</strong> Fast answers from internal docs without manual system-hopping.<br><br>
-                        <strong>Pain Points:</strong> Fragmented internal wikis; wasting hours hunting for current SOPs.<br><br>
-                        <span style="color: var(--secondary); font-weight: bold;">VaultRAG Benefit:</span> Conversational access to all siloed PDFs and local wikis in one UI.
-                    </p>
-                </div>
-        
-                <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
-                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                        <div style="width: 50px; height: 50px; background: var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 15px;">CO</div>
-                        <div>
-                            <h4 style="margin: 0; color: var(--primary);">Compliance Officer</h4>
-                            <p style="margin: 0; font-size: 0.85rem; color: #666;">Governance Lead</p>
-                        </div>
-                    </div>
-                    <p style="font-size: 0.9rem; line-height: 1.5; color: #333; flex-grow: 1;">
-                        <strong>Goals:</strong> Ensure responses are auditable and grounded in official policy.<br><br>
-                        <strong>Pain Points:</strong> AI "hallucinations" in critical policy interpretations; lack of source links.<br><br>
-                        <span style="color: var(--secondary); font-weight: bold;">VaultRAG Benefit:</span> Verbatim citations and local grounding ensure 100% auditability.
-                    </p>
-                </div>
-        
-                <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
-                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                        <div style="width: 50px; height: 50px; background: #00838f; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 15px;">SA</div>
-                        <div>
-                            <h4 style="margin: 0; color: var(--primary);">Security Admin</h4>
-                            <p style="margin: 0; font-size: 0.85rem; color: #666;">IT/Infrastructure</p>
-                        </div>
-                    </div>
-                    <p style="font-size: 0.9rem; line-height: 1.5; color: #333; flex-grow: 1;">
-                        <strong>Goals:</strong> Deploy AI tools without risking data exfiltration or cloud breaches.<br><br>
-                        <strong>Pain Points:</strong> Cloud-only RAG platforms violating data sovereignty laws.<br><br>
-                        <span style="color: var(--secondary); font-weight: bold;">VaultRAG Benefit:</span> 100% local execution; no internet dependency or API leakage.
-                    </p>
-                </div>
-            </div>
-        </section>
-        
-        <section id="vaultrag-user-stories" style="max-width: 1000px; margin: 20px auto 40px 0;">
-            <details style="background: #ffffff; border: 1px solid var(--primary); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                <summary style="background-color: var(--primary); color: white; padding: 20px; font-size: 1.25rem; font-weight: bold; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
-                    <span>04b. Requirements & User Stories (MoSCoW Prioritization)</span>
-                    <span style="font-size: 0.9rem; border: 1px solid white; padding: 2px 8px; border-radius: 4px;">Click to Expand</span>
-                </summary>
-                
-                <div style="padding: 20px; overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left;">
-                        <thead>
-                            <tr style="background-color: #f1f3f4; color: var(--primary); border-bottom: 2px solid var(--primary);">
-                                <th style="padding: 12px; border: 1px solid #ddd;">ID</th>
-                                <th style="padding: 12px; border: 1px solid #ddd;">User Story</th>
-                                <th style="padding: 12px; border: 1px solid #ddd;">Priority</th>
-                                <th style="padding: 12px; border: 1px solid #ddd;">Linked Component</th>
-                                <th style="padding: 12px; border: 1px solid #ddd;">Acceptance Criteria</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">VR-01</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">As a user, I want to upload and query docs conversationally.</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;"><span style="background: #e8f5e9; color: #2e7d32; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Must</span></td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">LlamaIndex Orchestrator</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">Support for PDF/MD; &lt;5s response time.</td>
-                            </tr>
-                            <tr style="background-color: #f9f9f9;">
-                                <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">VR-02</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">As a user, I want direct source citations for every answer.</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;"><span style="background: #e8f5e9; color: #2e7d32; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Must</span></td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">Citation Engine</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">Verbatim snippets with filename/page ref.</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">VR-03</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">As a Security Admin, I want 100% local, air-gapped execution.</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;"><span style="background: #e8f5e9; color: #2e7d32; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Must</span></td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">Ollama + ChromaDB</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">Zero outbound network calls detected.</td>
-                            </tr>
-                            <tr style="background-color: #f9f9f9;">
-                                <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">VR-04</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">As a user, I want to ask follow-up questions with context.</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;"><span style="background: #fff3e0; color: #ef6c00; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Should</span></td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">Buffer Window Memory</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">Retention of last 5 conversational turns.</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">VR-05</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">As an Analyst, I want to export threads for documentation.</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;"><span style="background: #e3f2fd; color: #1565c0; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Could</span></td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">Markdown Exporter</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">Clean file export with citations included.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </details>
-        </section>
-        
-        <section id="vaultrag-journey-map" style="max-width: 1000px; margin: 20px auto 40px 0;">
-            <details style="background: #ffffff; border: 1px solid var(--primary); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                <summary style="background-color: var(--primary); color: white; padding: 20px; font-size: 1.25rem; font-weight: bold; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
-                    <span>04c. User Journey Map: The Private Insight Lifecycle</span>
-                    <span style="font-size: 0.9rem; border: 1px solid white; padding: 2px 8px; border-radius: 4px;">Click to Expand</span>
-                </summary>
-                
-                <div style="padding: 20px; overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left;">
-                        <thead>
-                            <tr style="background-color: #f1f3f4; color: var(--primary); border-bottom: 2px solid var(--primary);">
-                                <th style="padding: 12px; border: 1px solid #ddd; width: 15%;">Stage</th>
-                                <th style="padding: 12px; border: 1px solid #ddd; width: 25%;">Actions / Touchpoints</th>
-                                <th style="padding: 12px; border: 1px solid #ddd; width: 20%;">Legacy Pains</th>
-                                <th style="padding: 12px; border: 1px solid #ddd; width: 25%;">Autonomous Resolution</th>
-                                <th style="padding: 12px; border: 1px solid #ddd; width: 15%;">Metrics Impact</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; background: #f8f9fa; color: var(--primary);">1. Ingestion</td>
-                                <td style="padding: 12px; border: 1px solid #ddd;">Upload document collection (PDFs, Markdown) locally.</td>
-                                <td style="padding: 12px; border: 1px solid #ddd; color: #b71c1c;">Data security fears; manual tagging required.</td>
-                                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Local Indexing</strong> with automated embedding generation.</td>
-                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; color: #2e7d32;">0 Cloud Calls</td>
-                            </tr>
-                            <tr style="background-color: #f9f9f9;">
-                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; background: #f8f9fa; color: var(--primary);">2. Query</td>
-                                <td style="padding: 12px; border: 1px solid #ddd;">User asks natural-language question.</td>
-                                <td style="padding: 12px; border: 1px solid #ddd; color: #b71c1c;">Keyword search fails on context; slow retrieval.</td>
-                                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Vector Retrieval</strong> fetches semantic context in &lt;1s.</td>
-                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; color: #2e7d32;">-90% Search Time</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; background: #f8f9fa; color: var(--primary);">3. Verification</td>
-                                <td style="padding: 12px; border: 1px solid #ddd;">Agent generates answer with source links.</td>
-                                <td style="padding: 12px; border: 1px solid #ddd; color: #b71c1c;">Blind trust in AI; "Black-box" answers.</td>
-                                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Grounded Citations</strong> link every claim to a file.</td>
-                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; color: #2e7d32;">100% Traceable</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </details>
-        </section>
-            </section>
+    nav a {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--steel-300);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
 
-        <section id="technical-roadmap">
-          <h2 style="color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px;">Design & Architecture: The Sovereign Knowledge Stack</h2>
+    nav a:hover { color: var(--amber-400); }
 
-<p style="font-size: 1.1rem; line-height: 1.6; color: #333;">
-    VaultRAG is architected following the <strong>TOGAF ADM</strong> framework, ensuring that the transition from business vision to technical execution is governed by a strict "Privacy-by-Design" mandate.
-</p>
+    .nav-github {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber-400) !important;
+      border: 1px solid var(--amber-500);
+      padding: 6px 14px;
+      border-radius: 2px;
+      transition: background 0.2s, color 0.2s !important;
+    }
 
-<div style="display: flex; flex-direction: column; gap: 15px; margin-top: 25px;">
+    .nav-github:hover {
+      background: var(--amber-500) !important;
+      color: var(--steel-900) !important;
+    }
 
-    <details style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <summary style="padding: 15px; font-weight: bold; cursor: pointer; background: #f8fafc; display: flex; align-items: center;">
-            <i class="fas fa-eye" style="margin-right: 12px; color: var(--primary); width: 20px;"></i> 
-            <span>Phase A/B: Vision & Business (Secure Knowledge Access)</span>
-        </summary>
-        <div style="padding: 30px; text-align: center; border-top: 1px solid #e2e8f0; background: #ffffff;">
-            <h4 style="color: var(--primary); margin-bottom: 25px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">Capability Map: Democratizing Institutional Intelligence</h4>
-            <div style="background: var(--soft-bg); padding: 40px; border: 1px dashed var(--secondary); border-radius: 8px; margin-bottom: 20px;">
-                <p style="color: var(--secondary); font-weight: bold;">[Architectural Diagram: Vision to Business Capability Map]</p>
-            </div>
-            <p style="text-align: left; font-size: 0.95rem; color: #444; max-width: 850px; margin: 0 auto;">
-                VaultRAG's primary objective is to create a secure, trustworthy RAG system that brings natural-language access to enterprise knowledge. Key capabilities include <strong>grounded generation</strong> and <strong>hallucination guardrails</strong>, measured by user trust scores and citation relevance.
-            </p>
-        </div>
-    </details>
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 48px 80px;
+      overflow: hidden;
+    }
 
-    <details style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <summary style="padding: 15px; font-weight: bold; cursor: pointer; background: #f8fafc; display: flex; align-items: center;">
-            <i class="fas fa-database" style="margin-right: 12px; color: var(--primary); width: 20px;"></i> 
-            <span>Phase C: Information Systems (Chroma Vector Fabric)</span>
-        </summary>
-        <div style="padding: 30px; text-align: center; border-top: 1px solid #e2e8f0; background: #ffffff;">
-            <h4 style="color: var(--primary); margin-bottom: 25px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">Data Architecture: Local Persistence Layer</h4>
-            <div style="background: var(--soft-bg); padding: 40px; border: 1px dashed var(--secondary); border-radius: 8px; margin-bottom: 20px;">
-                <p style="color: var(--secondary); font-weight: bold;">[Architectural Diagram: ChromaDB & Memory State Flow]</p>
-            </div>
-            <p style="text-align: left; font-size: 0.95rem; color: #444; max-width: 850px; margin: 0 auto;">
-                The Information architecture leverages a local <strong>Chroma Vector Store</strong> containing document chunks and enriched metadata. Conversation state is maintained in-memory for session persistence, with all data exclusively persisted on the user's local device.
-            </p>
-        </div>
-    </details>
+    /* Grid background */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(245,158,11,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,158,11,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
 
-    <details style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <summary style="padding: 15px; font-weight: bold; cursor: pointer; background: #f8fafc; display: flex; align-items: center;">
-            <i class="fas fa-microchip" style="margin-right: 12px; color: var(--primary); width: 20px;"></i> 
-            <span>Phase D: Technology (Ollama & LlamaIndex Stack)</span>
-        </summary>
-        <div style="padding: 30px; border-top: 1px solid #e2e8f0; background: #ffffff;">
-            <h4 style="color: var(--primary); margin-bottom: 25px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; text-align: center;">Technical Stack: Air-Gapped Intelligence</h4>
-            
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.9rem;">
-                <tr style="border-bottom: 1px solid #eee;">
-                    <td style="padding: 12px; font-weight: bold; width: 30%;">Indexing & Retrieval</td>
-                    <td style="padding: 12px;"><strong>LlamaIndex</strong> with local embeddings</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #eee;">
-                    <td style="padding: 12px; font-weight: bold;">Vector Store</td>
-                    <td style="padding: 12px;"><strong>Chroma</strong> (Persistent local database)</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #eee;">
-                    <td style="padding: 12px; font-weight: bold;">LLM Backend</td>
-                    <td style="padding: 12px;"><strong>Ollama</strong> (Llama 3.1 or Mistral default)</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #eee;">
-                    <td style="padding: 12px; font-weight: bold;">Guardrails</td>
-                    <td style="padding: 12px;">LlamaGuard / Custom self-checking prompts</td>
-                </tr>
-                <tr>
-                    <td style="padding: 12px; font-weight: bold;">Frontend</td>
-                    <td style="padding: 12px;"><strong>Streamlit</strong> (Document upload & chat interface)</td>
-                </tr>
-            </table>
-            
-            <div style="background-color: var(--soft-bg); padding: 15px; border-radius: 8px;">
-                <p style="font-size: 0.9rem; margin: 0; color: #555;"><strong>Output Format:</strong> Markdown responses with high-fidelity inline source citations.</p>
-            </div>
-        </div>
-    </details>
-    <h3 style="color: var(--primary); margin-bottom: 20px; border-left: 5px solid var(--secondary); padding-left: 15px; font-size: 1.5rem;">05d. Technical Rollout Roadmap</h3>
+    /* Amber glow orb */
+    .hero-glow {
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
 
-    <p style="font-size: 1.05rem; color: #555; margin-bottom: 25px; line-height: 1.6;">
-        The VaultRAG roadmap sequences prioritized user stories into an iterative release cycle, focusing on <strong>Privacy-First Foundations</strong> in the MVP before scaling into <strong>Enterprise Governance</strong> and multi-system integration. This strategy establishes immediate trust via local grounding before expanding the agentic surface area.
-    </p>
-    
-    <details style="background: #ffffff; border: 1px solid var(--primary); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-        <summary style="background-color: var(--primary); color: white; padding: 20px; font-size: 1.25rem; font-weight: bold; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
-            <span><i class="fas fa-map-signs" style="margin-right: 10px;"></i> Implementation Phases & PI Mapping</span>
-            <span style="font-size: 0.9rem; border: 1px solid white; padding: 2px 8px; border-radius: 4px;">Click to Expand</span>
-        </summary>
-        
-        <div style="padding: 20px; overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left;">
-                <thead>
-                    <tr style="background-color: var(--soft-bg); color: var(--primary); border-bottom: 2px solid var(--primary);">
-                        <th style="padding: 12px; border: 1px solid #ddd; width: 15%;">Phase</th>
-                        <th style="padding: 12px; border: 1px solid #ddd; width: 20%;">Focus</th>
-                        <th style="padding: 12px; border: 1px solid #ddd; width: 20%;">Deliverables</th>
-                        <th style="padding: 12px; border: 1px solid #ddd; width: 15%;">Target Metrics</th>
-                        <th style="padding: 12px; border: 1px solid #ddd; width: 15%;">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">1: MVP</td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">Foundational RAG</td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">PDF/MD Ingestion; Semantic Search; Streamlit UI</td>
-                        <td style="padding: 10px; border: 1px solid #ddd; color: var(--secondary); font-weight: bold;">&lt;5s Latency</td>
-                        <td style="padding: 10px; border: 1px solid #ddd;"><span style="background: #e8f5e9; color: #2e7d32; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Current State</span></td>
-                    </tr>
-                    <tr style="background-color: #fcfcfc;">
-                        <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">2: Expansion</td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">Advanced Ingestion</td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">Office Docs & Confluence Support; Conversation Export</td>
-                        <td style="padding: 10px; border: 1px solid #ddd; color: var(--secondary); font-weight: bold;">80% Coverage</td>
-                        <td style="padding: 10px; border: 1px solid #ddd;"><span style="background: #fff3e0; color: #ef6c00; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Backlog</span></td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">3: Hardening</td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">Governance Layer</td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">PII Redaction; Topic Filtering; LlamaGuard Integration</td>
-                        <td style="padding: 10px; border: 1px solid #ddd; color: var(--secondary); font-weight: bold;">Zero Leakage</td>
-                        <td style="padding: 10px; border: 1px solid #ddd;"><span style="background: #e3f2fd; color: #1565c0; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Target State</span></td>
-                    </tr>
-                    <tr style="background-color: #fcfcfc;">
-                        <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">4: Scale</td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">Deployment Ops</td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">Docker/K8s Packaging; Multi-User Session Mgmt</td>
-                        <td style="padding: 10px; border: 1px solid #ddd; color: var(--secondary); font-weight: bold;">99.9% Uptime</td>
-                        <td style="padding: 10px; border: 1px solid #ddd;"><span style="background: #f1f3f4; color: #555; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Future Vision</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </details>
-    
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;">
-        <div style="background: #ffffff; border: 1px solid #ddd; padding: 20px; border-radius: 12px; border-left: 5px solid #b71c1c;">
-            <h4 style="margin-top: 0; color: #b71c1c;"><i class="fas fa-exclamation-circle"></i> Current State: Grounded MVP</h4>
-            <p style="font-size: 0.9rem; color: #555;">Baseline functionality focused on high-fidelity document parsing and verified local response generation via Streamlit.</p>
-            <ul style="font-size: 0.85rem; color: #333; padding-left: 20px;">
-                <li>PDF & Markdown Ingestion</li>
-                <li>Semantic Search Vectorization</li>
-                <li>Basic Grounding Guardrails</li>
-            </ul>
-        </div>
-        <div style="background: #ffffff; border: 1px solid #ddd; padding: 20px; border-radius: 12px; border-left: 5px solid #2e7d32;">
-            <h4 style="margin-top: 0; color: #2e7d32;"><i class="fas fa-rocket"></i> Future State: Enterprise Sovereignty</h4>
-            <p style="font-size: 0.9rem; color: #555;">Targeting complex enterprise environments with advanced data protection and distributed infrastructure.</p>
-            <ul style="font-size: 0.85rem; color: #333; padding-left: 20px;">
-                <li>Office Docs & Confluence Connectors</li>
-                <li>PII Redaction & Topic Filtering</li>
-                <li>Docker/K8s Orchestration</li>
-            </ul>
-        </div>
+    .hero-glow-2 {
+      position: absolute;
+      bottom: -200px;
+      left: -150px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(59,130,246,0.05) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber-500);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.2rem, 7vw, 6.5rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      max-width: 900px;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--amber-400);
+    }
+
+    .hero-title strong {
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--steel-200);
+      max-width: 620px;
+      line-height: 1.75;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.35s forwards;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 64px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.45s forwards;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 2px;
+      border: 1px solid var(--steel-600);
+      color: var(--steel-300);
+      background: rgba(38,47,66,0.6);
+    }
+
+    .tag-amber {
+      border-color: rgba(245,158,11,0.4);
+      color: var(--amber-400);
+      background: rgba(245,158,11,0.06);
+    }
+
+    /* ── METRICS STRIP ── */
+    .metrics-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--steel-700);
+      border: 1px solid var(--steel-700);
+      border-radius: 4px;
+      overflow: hidden;
+      max-width: 900px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.55s forwards;
+    }
+
+    .metric {
+      background: var(--steel-800);
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--amber-500);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s;
+    }
+
+    .metric:hover::before { transform: scaleX(1); }
+
+    .metric-value {
+      font-family: var(--font-display);
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--amber-400);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .metric-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--steel-300);
+      margin-bottom: 4px;
+    }
+
+    .metric-desc {
+      font-size: 0.78rem;
+      color: var(--steel-400);
+      line-height: 1.4;
+    }
+
+    /* ── SECTION COMMONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 48px;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber-500);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--amber-600);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .section-title em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--amber-400);
+    }
+
+    .section-intro {
+      font-size: 1rem;
+      color: var(--steel-200);
+      max-width: 680px;
+      line-height: 1.8;
+      margin-bottom: 64px;
+    }
+
+    /* ── NARRATIVE SPLIT ── */
+    .narrative-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--steel-700);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 80px;
+    }
+
+    .narrative-card {
+      background: var(--steel-800);
+      padding: 48px 40px;
+      position: relative;
+    }
+
+    .narrative-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    .narrative-card.business::before { background: var(--amber-500); }
+    .narrative-card.human::before { background: var(--danger); }
+
+    .narrative-type {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .narrative-card.business .narrative-type { color: var(--amber-500); }
+    .narrative-card.human .narrative-type { color: var(--danger); }
+
+    .narrative-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .narrative-card p {
+      font-size: 0.95rem;
+      color: var(--steel-200);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .narrative-stat {
+      margin-top: 32px;
+      padding: 20px;
+      background: var(--steel-700);
+      border-radius: 3px;
+      border-left: 3px solid;
+    }
+
+    .narrative-card.business .narrative-stat { border-color: var(--amber-500); }
+    .narrative-card.human .narrative-stat { border-color: var(--danger); }
+
+    .narrative-stat-value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--amber-400);
+      line-height: 1;
+    }
+
+    .narrative-card.human .narrative-stat-value { color: #fc8181; }
+
+    .narrative-stat-desc {
+      font-size: 0.82rem;
+      color: var(--steel-300);
+      margin-top: 4px;
+    }
+
+    /* ── FORCING FUNCTIONS ── */
+    .forces-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      background: var(--steel-700);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .force-card {
+      background: var(--steel-800);
+      padding: 40px;
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .force-card:hover { background: var(--steel-700); }
+
+    .force-number {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      color: var(--amber-600);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .force-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .force-body {
+      font-size: 0.9rem;
+      color: var(--steel-200);
+      line-height: 1.75;
+    }
+
+    .force-signal {
+      margin-top: 20px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--amber-500);
+      letter-spacing: 0.1em;
+      padding: 6px 10px;
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    /* ── ARCHITECTURE DIAGRAM ── */
+    .arch-diagram {
+      background: var(--steel-800);
+      border: 1px solid var(--steel-600);
+      border-radius: 6px;
+      padding: 48px;
+      margin-top: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .arch-diagram::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(245,158,11,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,158,11,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .arch-title {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--steel-300);
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .arch-title::before {
+      content: '';
+      width: 8px; height: 8px;
+      background: var(--amber-500);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--amber-500);
+    }
+
+    /* SVG Diagram */
+    .arch-svg {
+      width: 100%;
+      overflow: visible;
+    }
+
+    /* ── PIPELINE FLOW ── */
+    .pipeline-section {
+      background: var(--steel-800);
+      border: 1px solid var(--steel-600);
+      border-radius: 6px;
+      padding: 48px;
+      margin-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pipeline-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber-500);
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pipeline-label::before {
+      content: '';
+      width: 8px; height: 8px;
+      background: var(--amber-500);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--amber-500);
+    }
+
+    .pipeline-steps {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .pipeline-step {
+      flex: 1;
+      min-width: 130px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .pipeline-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 32px;
+      right: -20px;
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--amber-600), var(--amber-500));
+      z-index: 2;
+    }
+
+    .pipeline-step:not(:last-child)::before {
+      content: '▶';
+      position: absolute;
+      top: 24px;
+      right: -10px;
+      font-size: 0.6rem;
+      color: var(--amber-500);
+      z-index: 3;
+    }
+
+    .step-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 4px;
+      background: var(--steel-700);
+      border: 1px solid var(--steel-600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .pipeline-step:hover .step-icon {
+      border-color: var(--amber-500);
+      background: rgba(245,158,11,0.08);
+    }
+
+    .step-name {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--steel-300);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .step-guard {
+      font-size: 0.58rem;
+      color: var(--amber-600);
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--steel-600), transparent);
+      margin: 0 48px;
+    }
+
+    /* ── BOTTOM CTA ── */
+    .cta-bar {
+      background: var(--steel-800);
+      border-top: 1px solid var(--steel-700);
+      border-bottom: 1px solid var(--steel-700);
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .cta-text {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .cta-text em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--amber-400);
+    }
+
+    .cta-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 2px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--amber-500);
+      color: var(--steel-900);
+      font-weight: 700;
+    }
+
+    .btn-primary:hover { background: var(--amber-400); }
+
+    .btn-ghost {
+      border: 1px solid var(--steel-500);
+      color: var(--steel-200);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--amber-500);
+      color: var(--amber-400);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--steel-800);
+    }
+
+    footer p {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--steel-500);
+      text-transform: uppercase;
+    }
+
+    footer a {
+      color: var(--steel-400);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--amber-400); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse-amber {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.4); }
+      50%       { box-shadow: 0 0 0 6px rgba(245,158,11,0); }
+    }
+
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+
+    .scroll-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      nav ul { display: none; }
+      .hero { padding: 100px 24px 60px; }
+      section { padding: 60px 24px; }
+      .narrative-grid, .forces-grid { grid-template-columns: 1fr; }
+      .metrics-strip { grid-template-columns: repeat(2, 1fr); }
+      .arch-diagram, .pipeline-section { padding: 28px; }
+      .cta-bar { padding: 28px 24px; }
+      footer { padding: 28px 24px; flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     NAV
+══════════════════════════════════════════ -->
+<nav>
+  <a class="nav-brand" href="index.html">VAULT<span>RAG</span></a>
+  <ul>
+    <li><a href="#why-now">Why Now</a></li>
+    <li><a href="#problem">The Problem</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="page-02.html">Problem Deep Dive →</a></li>
+    <li><a href="page-03.html">Architecture →</a></li>
+    <li><a href="page-04.html">Simulator →</a></li>
+    <li><a href="https://github.com/raosiddharthp/VaultRAG" class="nav-github">GitHub →</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+
+  <p class="hero-eyebrow">Architecture Portfolio · 2026 · Manufacturing Intelligence</p>
+
+  <h1 class="hero-title">
+    The factory floor<br>
+    <em>knows everything.</em><br>
+    <strong>Nobody can ask it.</strong>
+  </h1>
+
+  <p class="hero-sub">
+    VaultRAG is an open-source, local-first RAG agent built for manufacturing. Query equipment manuals, SOPs, and incident reports by voice — from the floor, on any phone — without a single byte leaving your facility.
+  </p>
+
+  <div class="hero-tags">
+    <span class="tag tag-amber">Voice-First</span>
+    <span class="tag tag-amber">Zero Exfiltration</span>
+    <span class="tag tag-amber">On-Prem LLM</span>
+    <span class="tag">LlamaIndex</span>
+    <span class="tag">ChromaDB</span>
+    <span class="tag">Ollama · Llama 3.2</span>
+    <span class="tag">5-Layer Guardrails</span>
+    <span class="tag">ISO / SOP / Runbooks</span>
+    <span class="tag">FastAPI · Docker</span>
+  </div>
+
+  <div class="metrics-strip">
+    <div class="metric">
+      <div class="metric-value">$260K</div>
+      <div class="metric-label">Per Hour</div>
+      <div class="metric-desc">Average cost of unplanned manufacturing downtime</div>
     </div>
-</div>
-            </section>
-
-        <section id="multi-agent-chain">
-          <h2 style="color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px;">Multi-Agent Reasoning Chain: The "Deterministic Swarm"</h2>
-
-<p style="font-size: 1.1rem; line-height: 1.6; color: #333;">
-    VaultRAG replaces the "Black Box" LLM approach with a <strong>Multi-Agent Orchestration</strong> layer. By decomposing RAG into specialized, auditable agents, we ensure that retrieval, reasoning, and safety are handled by independent workers with clear separation of concerns.
-</p>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">1. The Autonomous Workforce (Agent Personas)</h3>
-<p style="font-size: 0.95rem; color: #555; margin-bottom: 20px;">
-    Every query undergoes a rigorous lifecycle managed by a swarm of specialized local agents. No single LLM has the authority to generate a response unchecked.
-</p>
-
-<table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.85rem; border: 1px solid #ddd;">
-    <thead>
-        <tr style="background-color: var(--soft-bg); text-align: left;">
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Agent Role</th>
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Reasoning Engine</th>
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Domain Responsibility</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Query Orchestrator</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Stateless Control Plane</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Enforces the <strong>"No Source, No Answer"</strong> policy and failure routing.</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Retrieval Agent</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">LlamaIndex + Chroma</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Semantic lookup and metadata filtering (date, security level).</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Context Validator</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Grounding Logic</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">The <strong>Hallucination Kill-Switch</strong>; decides if context is sufficient to answer.</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Hallucination Guard</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Llama-3.1 (Low Temp)</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Performs sentence-level grounding checks against retrieved chunks.</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Citation Agent</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Attribution Engine</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Maps answer sentences to verbatim document sources and page refs.</td>
-        </tr>
-    </tbody>
-</table>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">2. Trust Boundaries & Governance</h3>
-<p style="font-size: 0.95rem; color: #555;">To satisfy Enterprise Architecture (EA) reviews, the system enforces hard trust boundaries between agents:</p>
-
-<div style="background: #fdfdfd; border: 1px solid #eee; padding: 20px; border-radius: 8px; margin-top: 15px;">
-    <ul style="padding-left: 20px; line-height: 1.8; font-size: 0.95rem; color: #444;">
-        <li>🔒 <strong>Input Boundary:</strong> Moderation Agent blocks off-scope or speculative queries before they hit the vector store.</li>
-        <li>🔍 <strong>Logic Boundary:</strong> Answer Generation is 100% constrained to context; external inference is architecturally disabled.</li>
-        <li>🛡️ <strong>Verification Boundary:</strong> Every response must pass the <strong>Audit & Policy Agent</strong> log before reaching the UI.</li>
-    </ul>
-</div>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">3. The "Reasoning Trace" (Transparent Auditing)</h3>
-<p style="font-size: 0.95rem; color: #555;">VaultRAG provides full transparency by capturing the "Internal Monologue" of the agent swarm for audit forensics:</p>
-<div style="background: #263238; color: #80cbc4; padding: 20px; border-radius: 8px; font-family: 'Courier New', Courier, monospace; font-size: 0.85rem; line-height: 1.5;">
-    <p style="margin: 0;">[Moderation_Agent]: Query "SOP for Remote Work" - ALLOWED. Intent identified as internal policy search.</p>
-    <p style="margin: 5px 0 0 0;">[Retrieval_Agent]: Fetched 3 chunks from 'HR_Policy_2024.pdf' (SimScore: 0.91).</p>
-    <p style="margin: 5px 0 0 0;">[Context_Validator]: SUFFICIENT. Chunks contain explicit remote eligibility criteria.</p>
-    <p style="margin: 5px 0 0 0;">[Hallucination_Guard]: PASS. Generated claim "Eligibility starts after 90 days" matches source page 12.</p>
-    <p style="margin: 5px 0 0 0;">[Citation_Agent]: Attached source: HR_Policy_2024.pdf [p. 12].</p>
-</div>
-
-<details style="margin: 30px 0; padding: 20px; background: var(--soft-bg); border-radius: 12px; border: 1px solid var(--accent);">
-    <summary style="font-size: 1.1em; font-weight: bold; cursor: pointer; color: var(--primary);">View Decision Matrix & Trust Protocols</summary>
-    <div style="margin-top: 20px;">
-        <p style="font-size: 0.95rem; color: #444;">When agents disagree (e.g., Retrieval score is high but Validation fails), the system applies deterministic resolution protocols:</p>
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.85rem; border: 1px solid #ddd; background: white;">
-            <thead>
-                <tr style="background-color: var(--soft-bg);">
-                    <th style="padding: 8px; border: 1px solid #ddd;">Scenario</th>
-                    <th style="padding: 8px; border: 1px solid #ddd;">Resolution Logic</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Conflicting Sources</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">Audit Agent prioritizes "Date Created" metadata; flags discrepancy to User.</td>
-                </tr>
-                <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Low Grounding Score</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">Generation Agent is blocked. System returns "Insufficient trusted information found."</td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <p style="font-style: italic; color: #666; font-size: 0.9rem;">
-            This <strong>Composable Architecture</strong> allows enterprise security teams to swap Llama-3.1 for more specialized local models or custom legal/HR policies without refactoring the core RAG pipeline.
-        </p>
+    <div class="metric">
+      <div class="metric-value">18min</div>
+      <div class="metric-label">Per Search</div>
+      <div class="metric-desc">Time a technician spends locating the right procedure</div>
     </div>
-</details>
-
-<div style="background-color: var(--primary); color: #fff; padding: 25px; border-radius: 8px; margin-top: 40px;">
-    <h4 style="margin-top: 0; color: var(--accent);">Architectural Dividend</h4>
-    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 0;">
-        By decomposing RAG into policy-enforced agents, VaultRAG ensures that <strong>no response is generated without verified claims</strong>. It effectively transforms RAG from a "probability engine" into a "deterministic intelligence utility."
-    </p>
-</div>
-            </section>
-
-        <section id="intelligence-platform">
-          <h2 style="color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px;">The VaultRAG Intelligence Platform: Sovereign Knowledge Fabric</h2>
-
-<p style="font-size: 1.1rem; line-height: 1.6; color: #333;">
-    VaultRAG is architected as a <strong>shared, governed intelligence substrate</strong>. It standardizes how agents retrieve knowledge, invoke models, and enforce trust, ensuring that enterprise concerns like data sovereignty and auditability are handled at the platform level rather than embedded in individual agent logic.
-</p>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">1. Platform Responsibilities (EA Canonical View)</h3>
-<p style="font-size: 0.95rem; color: #555; margin-bottom: 20px;">
-    By decoupling agents from the underlying infrastructure, the platform provides non-functional guarantees that agents cannot bypass.
-</p>
-
-<table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; border: 1px solid #ddd;">
-    <thead>
-        <tr style="background-color: var(--soft-bg); text-align: left;">
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Architectural Concern</th>
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary); text-align: center;">Platform Managed</th>
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary); text-align: center;">Agent Controlled</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Retrieval & Embedding Lifecycle</td>
-            <td style="padding: 10px; border: 1px solid #ddd; text-align: center; color: #2e7d32;">✅</td>
-            <td style="padding: 10px; border: 1px solid #ddd; text-align: center; color: #b71c1c;">❌</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Model Invocation & Temperature Caps</td>
-            <td style="padding: 10px; border: 1px solid #ddd; text-align: center; color: #2e7d32;">✅</td>
-            <td style="padding: 10px; border: 1px solid #ddd; text-align: center; color: #b71c1c;">❌</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Guardrail & Trust Enforcement</td>
-            <td style="padding: 10px; border: 1px solid #ddd; text-align: center; color: #2e7d32;">✅</td>
-            <td style="padding: 10px; border: 1px solid #ddd; text-align: center; color: #b71c1c;">❌</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Observability & Policy Audits</td>
-            <td style="padding: 10px; border: 1px solid #ddd; text-align: center; color: #2e7d32;">✅</td>
-            <td style="padding: 10px; border: 1px solid #ddd; text-align: center; color: #b71c1c;">❌</td>
-        </tr>
-    </tbody>
-</table>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">2. Logical Subsystems Deep-Dive</h3>
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
-    <div style="background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 8px;">
-        <h4 style="margin-top: 0; color: var(--primary); font-size: 1rem;">🛡️ Guardrail & Trust Engine</h4>
-        <p style="font-size: 0.9rem; color: #444; line-height: 1.5;">
-            The core differentiator. This engine enforces <strong>context sufficiency</strong> and <strong>claim-to-source alignment</strong>. If the answer confidence score is below threshold, the platform triggers an automatic refusal, preventing hallucinations at the source.
-        </p>
+    <div class="metric">
+      <div class="metric-value">0 bytes</div>
+      <div class="metric-label">Exfiltrated</div>
+      <div class="metric-desc">Proprietary process data sent to any external service</div>
     </div>
-    <div style="background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 8px;">
-        <h4 style="margin-top: 0; color: var(--primary); font-size: 1rem;">📑 Citation & Attribution Platform</h4>
-        <p style="font-size: 0.9rem; color: #444; line-height: 1.5;">
-            Enforces the <strong>"No Citation, No Answer"</strong> mandate. It handles sentence-level mapping and version attribution, ensuring every response is grounded in a specific, auditable document revision.
-        </p>
+    <div class="metric">
+      <div class="metric-value">&lt; 8s</div>
+      <div class="metric-label">To Answer</div>
+      <div class="metric-desc">From voice query to cited, step-by-step procedure</div>
     </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     WHY NOW
+══════════════════════════════════════════ -->
+<section id="why-now">
+  <div class="section-label">01 — Why Now</div>
+  <h2 class="section-title">Four conditions <em>finally</em> aligned.</h2>
+  <p class="section-intro">
+    The manufacturing knowledge problem has existed for decades. Thousands of pages of SOPs, manuals, and incident reports — locked in filing cabinets, network drives, and the heads of retiring engineers. What changed is not the problem. It is the infrastructure available to solve it.
+  </p>
+
+  <div class="forces-grid scroll-reveal">
+    <div class="force-card">
+      <div class="force-number">Force — 01</div>
+      <div class="force-title">Local LLMs crossed the quality threshold</div>
+      <p class="force-body">
+        Llama 3.2 3B runs on commodity hardware with instruction-following quality that was impossible two years ago. For the first time, a model capable of reading a 400-page equipment manual and answering a specific technical question runs entirely on a server in your facility — no API calls, no internet dependency.
+      </p>
+      <span class="force-signal">Llama 3.2 · 2024</span>
+    </div>
+
+    <div class="force-card">
+      <div class="force-number">Force — 02</div>
+      <div class="force-title">Voice input reached the factory floor</div>
+      <p class="force-body">
+        The Web Speech API is now supported natively in every modern mobile browser with no app install required. A technician standing next to running machinery can speak a query one-handed and receive a response — the only realistic input modality for the factory floor finally became infrastructure-free.
+      </p>
+      <span class="force-signal">Web Speech API · Baseline 2023</span>
+    </div>
+
+    <div class="force-card">
+      <div class="force-number">Force — 03</div>
+      <div class="force-title">Vector search matured into a stable primitive</div>
+      <p class="force-body">
+        ChromaDB and similar embedded vector stores turned semantic search into a single-dependency, persistent, local primitive. The retrieval layer — the part that finds the right chunk of the right manual before the LLM ever sees it — now requires no external service, no managed database, and no ongoing cost.
+      </p>
+      <span class="force-signal">ChromaDB · Stable 2024</span>
+    </div>
+
+    <div class="force-card">
+      <div class="force-number">Force — 04</div>
+      <div class="force-title">Data sovereignty became a procurement requirement</div>
+      <p class="force-body">
+        Manufacturing firms — particularly in aerospace, automotive, and defence supply chains — increasingly prohibit sending proprietary process data to third-party APIs. The cloud RAG market, dominated by OpenAI and Anthropic API wrappers, is architecturally excluded from these environments. The on-prem alternative is now viable.
+      </p>
+      <span class="force-signal">ISO 27001 · ITAR · NDA Clauses</span>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     THE PROBLEM (TEASER)
+══════════════════════════════════════════ -->
+<section id="problem">
+  <div class="section-label">02 — The Problem</div>
+  <h2 class="section-title">Two narratives. <em>One broken system.</em></h2>
+  <p class="section-intro">
+    Every manufacturing facility has the same problem expressed in two ways: a business problem measured in downtime costs and productivity loss, and a human problem measured in frustration, risk, and physical consequence. Both are solvable with the same architecture.
+  </p>
+
+  <div class="narrative-grid scroll-reveal">
+    <div class="narrative-card business">
+      <div class="narrative-type">The Business Problem</div>
+      <h3>Knowledge locked in documents no system can query</h3>
+      <p>
+        The average mid-size manufacturer maintains 12,000–40,000 pages of technical documentation — equipment manuals, ISO-controlled SOPs, non-conformance reports, maintenance logs. This documentation exists as PDFs on network drives, printed binders on shelves, and tribal knowledge in the heads of engineers approaching retirement.
+      </p>
+      <p>
+        When a machine fails, the cost clock starts immediately. A technician must locate the right manual, navigate to the relevant section, cross-reference the error code, and retrieve the correct procedure — manually, under pressure, often in a noisy environment. Every minute of that search is downtime. Every wrong procedure is extended downtime.
+      </p>
+      <div class="narrative-stat">
+        <div class="narrative-stat-value">$260K/hr</div>
+        <div class="narrative-stat-desc">Average unplanned downtime cost in automotive manufacturing · Aberdeen Group</div>
+      </div>
+    </div>
+
+    <div class="narrative-card human">
+      <div class="narrative-type">The Human Problem</div>
+      <h3>A technician who cannot afford to be wrong</h3>
+      <p>
+        Marcus has worked the floor for eleven years. He knows most of the machines by sound. But the Haas CNC just threw an E-04 fault he has not seen before, and the line is stopped. His phone has no signal strong enough for a Google search. The manual is a 380-page PDF on a laptop in the supervisor's office forty metres away.
+      </p>
+      <p>
+        He asks a colleague. The colleague thinks he remembers the procedure. They try it. It is not quite right. The fault clears but returns in two hours. Now it is a recurring incident, not a resolved one — and it will be documented as such in the NCR log that Quality reviews on Friday.
+      </p>
+      <div class="narrative-stat" style="border-color: var(--danger);">
+        <div class="narrative-stat-value" style="color: #fc8181;">73%</div>
+        <div class="narrative-stat-desc">Of manufacturing defects are traceable to incorrect or misremembered procedure application · NIST</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top: 32px;">
+    <a href="page-02.html" class="btn btn-primary">Read the full problem analysis →</a>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     ARCHITECTURE — 30,000 FT
+══════════════════════════════════════════ -->
+<section id="architecture">
+  <div class="section-label">03 — Architecture</div>
+  <h2 class="section-title">Three layers. <em>One coherent contract.</em></h2>
+  <p class="section-intro">
+    VaultRAG is designed as three distinct layers with a single invariant: no data crosses the facility boundary. The mobile interface lives on the technician's phone. The intelligence runs on a server inside the plant. The documents never move.
+  </p>
+
+  <!-- SYSTEM ARCHITECTURE DIAGRAM -->
+  <div class="arch-diagram scroll-reveal">
+    <div class="arch-title">System Architecture — 30,000 ft view · Three-layer design</div>
+
+    <svg class="arch-svg" viewBox="0 0 960 520" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#f59e0b" opacity="0.8"/>
+        </marker>
+        <marker id="arrow-gray" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#4a5568" opacity="0.8"/>
+        </marker>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <linearGradient id="amberGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#d97706"/>
+          <stop offset="100%" stop-color="#f59e0b"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Layer backgrounds -->
+      <!-- Layer 1: Mobile / Field -->
+      <rect x="8" y="8" width="200" height="504" rx="4" fill="#161c27" stroke="#344057" stroke-width="1"/>
+      <rect x="8" y="8" width="200" height="4" rx="2" fill="#f59e0b"/>
+      <text x="108" y="32" text-anchor="middle" font-size="8" fill="#f59e0b" letter-spacing="2" font-weight="500">LAYER 01</text>
+      <text x="108" y="48" text-anchor="middle" font-size="9.5" fill="#a0aec0" letter-spacing="1">Field Interface</text>
+
+      <!-- Layer 2: RAG Core -->
+      <rect x="228" y="8" width="504" height="504" rx="4" fill="#161c27" stroke="#344057" stroke-width="1"/>
+      <rect x="228" y="8" width="504" height="4" rx="2" fill="#3b82f6"/>
+      <text x="480" y="32" text-anchor="middle" font-size="8" fill="#60a5fa" letter-spacing="2" font-weight="500">LAYER 02</text>
+      <text x="480" y="48" text-anchor="middle" font-size="9.5" fill="#a0aec0" letter-spacing="1">RAG Intelligence Core</text>
+
+      <!-- Layer 3: Data & Docs -->
+      <rect x="752" y="8" width="200" height="504" rx="4" fill="#161c27" stroke="#344057" stroke-width="1"/>
+      <rect x="752" y="8" width="200" height="4" rx="2" fill="#10b981"/>
+      <text x="852" y="32" text-anchor="middle" font-size="8" fill="#34d399" letter-spacing="2" font-weight="500">LAYER 03</text>
+      <text x="852" y="48" text-anchor="middle" font-size="9.5" fill="#a0aec0" letter-spacing="1">Data &amp; Documents</text>
+
+      <!-- ── LAYER 1 COMPONENTS ── -->
+      <!-- Phone mockup -->
+      <rect x="58" y="72" width="100" height="170" rx="10" fill="#1e2535" stroke="#344057" stroke-width="1.5"/>
+      <rect x="68" y="84" width="80" height="124" rx="4" fill="#0e1117"/>
+      <!-- Screen content -->
+      <rect x="72" y="88" width="72" height="10" rx="2" fill="#262f42"/>
+      <rect x="72" y="102" width="50" height="8" rx="2" fill="#344057"/>
+      <rect x="72" y="114" width="60" height="8" rx="2" fill="#262f42"/>
+      <rect x="72" y="128" width="44" height="8" rx="2" fill="#344057"/>
+      <!-- Voice button -->
+      <circle cx="108" cy="158" r="10" fill="#f59e0b" filter="url(#glow)"/>
+      <text x="108" y="162" text-anchor="middle" font-size="10" fill="#0e1117">🎙</text>
+      <!-- Home indicator -->
+      <rect x="93" y="228" width="30" height="3" rx="1.5" fill="#344057"/>
+
+      <text x="108" y="262" text-anchor="middle" font-size="8" fill="#a0aec0" letter-spacing="1">MOBILE PWA</text>
+      <text x="108" y="275" text-anchor="middle" font-size="7.5" fill="#718096">Browser · No install</text>
+
+      <!-- Voice input box -->
+      <rect x="28" y="290" width="160" height="48" rx="3" fill="#1e2535" stroke="#344057"/>
+      <text x="108" y="309" text-anchor="middle" font-size="7.5" fill="#f59e0b" letter-spacing="1">WEB SPEECH API</text>
+      <text x="108" y="323" text-anchor="middle" font-size="7" fill="#718096">Voice → Text</text>
+      <text x="108" y="333" text-anchor="middle" font-size="6.5" fill="#4a5568">No SDK · Zero cost</text>
+
+      <!-- Plant WiFi note -->
+      <rect x="28" y="352" width="160" height="40" rx="3" fill="#1e2535" stroke="#262f42"/>
+      <text x="108" y="368" text-anchor="middle" font-size="7.5" fill="#718096" letter-spacing="0.5">PLANT WIFI</text>
+      <text x="108" y="382" text-anchor="middle" font-size="7" fill="#4a5568">Internal network only</text>
+
+      <!-- Fallback text note -->
+      <rect x="28" y="406" width="160" height="40" rx="3" fill="#1e2535" stroke="#262f42"/>
+      <text x="108" y="422" text-anchor="middle" font-size="7.5" fill="#718096" letter-spacing="0.5">TEXT FALLBACK</text>
+      <text x="108" y="436" text-anchor="middle" font-size="7" fill="#4a5568">Keyboard input backup</text>
+
+      <!-- ── LAYER 2 COMPONENTS ── -->
+      <!-- FastAPI Gateway -->
+      <rect x="248" y="64" width="140" height="60" rx="3" fill="#1e2535" stroke="#4a5568" stroke-width="1"/>
+      <text x="318" y="84" text-anchor="middle" font-size="8" fill="#60a5fa" letter-spacing="1.5">FASTAPI GATEWAY</text>
+      <text x="318" y="98" text-anchor="middle" font-size="7" fill="#718096">HTTP · JSON</text>
+      <text x="318" y="110" text-anchor="middle" font-size="7" fill="#4a5568">Auth · Rate limit</text>
+
+      <!-- Guardrail Pipeline -->
+      <rect x="248" y="148" width="460" height="240" rx="3" fill="#0e1117" stroke="#344057" stroke-dasharray="4,3"/>
+      <text x="478" y="168" text-anchor="middle" font-size="7.5" fill="#f59e0b" letter-spacing="2">5-LAYER GUARDRAIL PIPELINE</text>
+
+      <!-- G1: Query Normaliser -->
+      <rect x="260" y="178" width="80" height="56" rx="3" fill="#1e2535" stroke="#d97706" stroke-width="1"/>
+      <text x="300" y="196" text-anchor="middle" font-size="7" fill="#f59e0b" letter-spacing="0.5">G1</text>
+      <text x="300" y="208" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Query</text>
+      <text x="300" y="220" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Normaliser</text>
+      <text x="300" y="231" text-anchor="middle" font-size="6.5" fill="#718096">Voice denoising</text>
+
+      <!-- G2: Scope Guard -->
+      <rect x="352" y="178" width="80" height="56" rx="3" fill="#1e2535" stroke="#d97706" stroke-width="1"/>
+      <text x="392" y="196" text-anchor="middle" font-size="7" fill="#f59e0b" letter-spacing="0.5">G2</text>
+      <text x="392" y="208" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Scope</text>
+      <text x="392" y="220" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Guard</text>
+      <text x="392" y="231" text-anchor="middle" font-size="6.5" fill="#718096">Off-topic reject</text>
+
+      <!-- G3: Confidence Threshold -->
+      <rect x="444" y="178" width="80" height="56" rx="3" fill="#1e2535" stroke="#d97706" stroke-width="1"/>
+      <text x="484" y="196" text-anchor="middle" font-size="7" fill="#f59e0b" letter-spacing="0.5">G3</text>
+      <text x="484" y="208" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Confidence</text>
+      <text x="484" y="220" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Threshold</text>
+      <text x="484" y="231" text-anchor="middle" font-size="6.5" fill="#718096">Low score refuse</text>
+
+      <!-- G4: Safety Flag -->
+      <rect x="536" y="178" width="80" height="56" rx="3" fill="#1e2535" stroke="#ef4444" stroke-width="1"/>
+      <text x="576" y="196" text-anchor="middle" font-size="7" fill="#fc8181" letter-spacing="0.5">G4</text>
+      <text x="576" y="208" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Safety</text>
+      <text x="576" y="220" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Flag</text>
+      <text x="576" y="231" text-anchor="middle" font-size="6.5" fill="#718096">LOTO / hazard warn</text>
+
+      <!-- G5: Citation Enforcer -->
+      <rect x="628" y="178" width="72" height="56" rx="3" fill="#1e2535" stroke="#10b981" stroke-width="1"/>
+      <text x="664" y="196" text-anchor="middle" font-size="7" fill="#34d399" letter-spacing="0.5">G5</text>
+      <text x="664" y="208" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Citation</text>
+      <text x="664" y="220" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Enforcer</text>
+      <text x="664" y="231" text-anchor="middle" font-size="6.5" fill="#718096">Source required</text>
+
+      <!-- Arrows between guardrails -->
+      <line x1="340" y1="206" x2="352" y2="206" stroke="#f59e0b" stroke-width="1" marker-end="url(#arrow)" opacity="0.7"/>
+      <line x1="432" y1="206" x2="444" y2="206" stroke="#f59e0b" stroke-width="1" marker-end="url(#arrow)" opacity="0.7"/>
+      <line x1="524" y1="206" x2="536" y2="206" stroke="#f59e0b" stroke-width="1" marker-end="url(#arrow)" opacity="0.7"/>
+      <line x1="616" y1="206" x2="628" y2="206" stroke="#f59e0b" stroke-width="1" marker-end="url(#arrow)" opacity="0.7"/>
+
+      <!-- Retrieval row -->
+      <rect x="260" y="254" width="460" height="50" rx="3" fill="#1e2535" stroke="#344057"/>
+      <text x="490" y="274" text-anchor="middle" font-size="7.5" fill="#60a5fa" letter-spacing="1.5">CHROMADB RETRIEVAL  ·  top-k=3  ·  nomic-embed-text  ·  cosine similarity</text>
+      <text x="490" y="290" text-anchor="middle" font-size="7" fill="#4a5568">Persistent local vector store  ·  procedural chunking  ·  similarity threshold: 0.70</text>
+
+      <!-- LLM row -->
+      <rect x="260" y="318" width="460" height="50" rx="3" fill="#1e2535" stroke="#344057"/>
+      <text x="490" y="338" text-anchor="middle" font-size="7.5" fill="#a78bfa" letter-spacing="1.5">OLLAMA  ·  LLAMA 3.2 · 3B INSTRUCT  ·  LOCAL INFERENCE</text>
+      <text x="490" y="354" text-anchor="middle" font-size="7" fill="#4a5568">System prompt: step-by-step · max 5 steps · citation mandatory · safety prefix on G4 trigger</text>
+
+      <!-- LlamaIndex orchestrator -->
+      <rect x="248" y="400" width="460" height="50" rx="3" fill="#262f42" stroke="#4a5568"/>
+      <text x="478" y="420" text-anchor="middle" font-size="8" fill="#e2e8f0" letter-spacing="1.5">LLAMAINDEX ORCHESTRATOR</text>
+      <text x="478" y="436" text-anchor="middle" font-size="7" fill="#718096">Query engine · Document ingestion pipeline · Index management · Response synthesis</text>
+
+      <!-- ── LAYER 3 COMPONENTS ── -->
+      <!-- Doc types -->
+      <rect x="768" y="64" width="168" height="52" rx="3" fill="#1e2535" stroke="#2d6a4f"/>
+      <text x="852" y="82" text-anchor="middle" font-size="7.5" fill="#34d399" letter-spacing="1">EQUIPMENT MANUALS</text>
+      <text x="852" y="96" text-anchor="middle" font-size="7" fill="#718096">PDF · Structured procedures</text>
+      <text x="852" y="108" text-anchor="middle" font-size="6.5" fill="#4a5568">Haas, Fanuc, ABB, Siemens</text>
+
+      <rect x="768" y="130" width="168" height="52" rx="3" fill="#1e2535" stroke="#2d6a4f"/>
+      <text x="852" y="148" text-anchor="middle" font-size="7.5" fill="#34d399" letter-spacing="1">SOPs &amp; WORK INSTR.</text>
+      <text x="852" y="162" text-anchor="middle" font-size="7" fill="#718096">PDF · TXT · Markdown</text>
+      <text x="852" y="174" text-anchor="middle" font-size="6.5" fill="#4a5568">ISO 9001 · AS9100 controlled</text>
+
+      <rect x="768" y="196" width="168" height="52" rx="3" fill="#1e2535" stroke="#2d6a4f"/>
+      <text x="852" y="214" text-anchor="middle" font-size="7.5" fill="#34d399" letter-spacing="1">INCIDENT / NCR REPORTS</text>
+      <text x="852" y="228" text-anchor="middle" font-size="7" fill="#718096">PDF · Structured text</text>
+      <text x="852" y="240" text-anchor="middle" font-size="6.5" fill="#4a5568">Non-conformance records</text>
+
+      <!-- Ingestion pipeline -->
+      <rect x="768" y="262" width="168" height="64" rx="3" fill="#262f42" stroke="#4a5568"/>
+      <text x="852" y="280" text-anchor="middle" font-size="7.5" fill="#a0aec0" letter-spacing="1">INGESTION PIPELINE</text>
+      <text x="852" y="294" text-anchor="middle" font-size="7" fill="#718096">PyMuPDF parsing</text>
+      <text x="852" y="307" text-anchor="middle" font-size="7" fill="#718096">Procedural chunking</text>
+      <text x="852" y="320" text-anchor="middle" font-size="7" fill="#718096">nomic-embed-text</text>
+
+      <!-- Vector store -->
+      <rect x="768" y="340" width="168" height="52" rx="3" fill="#1e2535" stroke="#2d6a4f"/>
+      <text x="852" y="358" text-anchor="middle" font-size="7.5" fill="#34d399" letter-spacing="1">CHROMADB</text>
+      <text x="852" y="372" text-anchor="middle" font-size="7" fill="#718096">Persistent embeddings</text>
+      <text x="852" y="384" text-anchor="middle" font-size="6.5" fill="#4a5568">Local disk · No cloud</text>
+
+      <!-- Air gap note -->
+      <rect x="768" y="406" width="168" height="52" rx="3" fill="#0e1117" stroke="#344057" stroke-dasharray="4,3"/>
+      <text x="852" y="424" text-anchor="middle" font-size="7" fill="#718096" letter-spacing="1">AIR-GAP BOUNDARY</text>
+      <text x="852" y="438" text-anchor="middle" font-size="6.5" fill="#4a5568">No data exits facility</text>
+      <text x="852" y="450" text-anchor="middle" font-size="6.5" fill="#4a5568">network at any point</text>
+
+      <!-- ── FLOW ARROWS BETWEEN LAYERS ── -->
+      <!-- Phone → FastAPI -->
+      <line x1="228" y1="94" x2="248" y2="94" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="238" y="88" text-anchor="middle" font-size="6.5" fill="#d97706">HTTP</text>
+
+      <!-- FastAPI → Guardrails -->
+      <line x1="318" y1="124" x2="318" y2="148" stroke="#60a5fa" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.7"/>
+
+      <!-- Guardrails → Retrieval -->
+      <line x1="490" y1="234" x2="490" y2="254" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.7"/>
+
+      <!-- Retrieval → LLM -->
+      <line x1="490" y1="304" x2="490" y2="318" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.7"/>
+
+      <!-- LLM → Orchestrator -->
+      <line x1="490" y1="368" x2="490" y2="400" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.7"/>
+
+      <!-- Retrieval ↔ ChromaDB -->
+      <line x1="720" y1="279" x2="768" y2="370" stroke="#10b981" stroke-width="1" marker-end="url(#arrow)" stroke-dasharray="3,2" opacity="0.6"/>
+
+      <!-- Ingestion → ChromaDB -->
+      <line x1="852" y1="326" x2="852" y2="340" stroke="#34d399" stroke-width="1" marker-end="url(#arrow)" opacity="0.7"/>
+
+      <!-- Response back arrow -->
+      <path d="M 248 440 Q 140 480 108 440" stroke="#718096" stroke-width="1" fill="none" stroke-dasharray="3,2" marker-end="url(#arrow-gray)" opacity="0.5"/>
+      <text x="172" y="494" text-anchor="middle" font-size="6.5" fill="#4a5568">Cited response</text>
+
+    </svg>
+  </div>
+
+  <!-- GUARDRAIL PIPELINE DETAIL -->
+  <div class="pipeline-section scroll-reveal">
+    <div class="pipeline-label">Guardrail Pipeline — Request flow · 5 sequential layers</div>
+    <div class="pipeline-steps">
+      <div class="pipeline-step">
+        <div class="step-icon">🎙</div>
+        <div class="step-name">Voice<br>Input</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon" style="border-color: rgba(245,158,11,0.5)">G1</div>
+        <div class="step-name">Query<br>Normaliser</div>
+        <div class="step-guard">Pre-retrieval</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon" style="border-color: rgba(245,158,11,0.5)">G2</div>
+        <div class="step-name">Scope<br>Guard</div>
+        <div class="step-guard">Pre-retrieval</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon">🔍</div>
+        <div class="step-name">ChromaDB<br>Retrieval</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon" style="border-color: rgba(245,158,11,0.5)">G3</div>
+        <div class="step-name">Confidence<br>Threshold</div>
+        <div class="step-guard">Post-retrieval</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon" style="border-color: rgba(239,68,68,0.5)">G4</div>
+        <div class="step-name">Safety<br>Flag</div>
+        <div class="step-guard">Pre-generation</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon">🤖</div>
+        <div class="step-name">Llama 3.2<br>Generation</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon" style="border-color: rgba(16,185,129,0.5)">G5</div>
+        <div class="step-name">Citation<br>Enforcer</div>
+        <div class="step-guard">Post-generation</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon">📋</div>
+        <div class="step-name">Cited<br>Response</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top: 40px;">
+    <a href="page-03.html" class="btn btn-primary" style="margin-right:12px;">Full architecture →</a>
+    <a href="page-04.html" class="btn btn-ghost">Watch it run →</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CTA BAR
+══════════════════════════════════════════ -->
+<div class="cta-bar">
+  <div class="cta-text">Six pages. Every decision <em>explained.</em></div>
+  <div class="cta-links">
+    <a href="page-02.html" class="btn btn-ghost">The Problem</a>
+    <a href="page-03.html" class="btn btn-ghost">Architecture</a>
+    <a href="page-04.html" class="btn btn-primary">▶ Run the Simulator</a>
+  </div>
 </div>
 
-<div style="margin-top: 25px; padding: 20px; background: #263238; border-radius: 8px;">
-    <h4 style="color: #80cbc4; margin-top: 0;">Agent-Facing API Contract</h4>
-    <p style="color: #eee; font-size: 0.9rem; margin-bottom: 15px;">Agents interact with the substrate through deliberate architectural friction, ensuring governance remains centralized:</p>
-    <code style="color: #ffcb6b; font-size: 0.85rem; display: block; line-height: 1.6;">
-        platform.retrieve(query, policy_context)<br>
-        platform.generate(context, constraints)<br>
-        platform.validate(answer)<br>
-        platform.audit(event)
-    </code>
-</div>
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <p>VaultRAG · Architecture Portfolio · 2026 · <a href="https://github.com/raosiddharthp/VaultRAG">GitHub</a></p>
+  <p style="text-align:right;">Page 01 · The Concept · © 2026 Siddharth Rao</p>
+</footer>
 
-<h3 style="color: var(--secondary); margin-top: 30px;">3. SAFe Alignment: Platform as an Enabler</h3>
-<table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.85rem; border: 1px solid #ddd;">
-    <thead>
-        <tr style="background-color: var(--soft-bg);">
-            <th style="padding: 12px; border: 1px solid #ddd;">SAFe Concept</th>
-            <th style="padding: 12px; border: 1px solid #ddd;">VaultRAG Implementation</th>
-            <th style="padding: 12px; border: 1px solid #ddd;">Value for the ART</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Enabler Epics</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Retrieval, Trust, and Observability Services</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Foundational security for all agents.</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Architectural Runway</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Unified Model Abstraction Layer (Ollama)</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Swap models safely without agent rewrites.</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">System Team</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Owner of the Intelligence Platform Substrate</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Ensures non-functional guarantees are met.</td>
-        </tr>
-    </tbody>
-</table>
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.scroll-reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
 
-<div style="background-color: var(--soft-bg); border: 1px solid var(--accent); padding: 20px; border-radius: 8px; margin-top: 30px;">
-    <h4 style="margin-top: 0; color: var(--primary);">Intelligence Dividend</h4>
-    <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">
-        By abstracting retrieval and governance into a unified substrate, VaultRAG moves from a sample-based trust model to <strong>Total Population Certainty</strong>. This allows agentic applications to scale safely and compliantly, making "Model Decay" a detectable system event rather than a hidden financial risk.
-    </p>
-</div>
-            </section>
+  // Metric counter animation
+  const metrics = document.querySelectorAll('.metric-value');
+  const metricObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '0';
+        e.target.style.transform = 'translateY(12px)';
+        e.target.style.transition = 'opacity 0.5s, transform 0.5s';
+        setTimeout(() => {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }, 100);
+        metricObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  metrics.forEach(m => metricObserver.observe(m));
+</script>
 
-        <section id="model-lifecycle">
-          <h2 style="color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px;">Model Lifecycle (MLE): Governing Sovereign Intelligence</h2>
-
-<p style="font-size: 1.1rem; line-height: 1.6; color: #333;">
-    VaultRAG treats the model layer—encompassing LLMs, embeddings, and verifiers—as a governed enterprise asset. We apply a continuous, non-linear lifecycle (<strong>Plan to Retire</strong>) to ensure every model is validated for determinism, safety, and offline performance before platform integration.
-</p>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">1. The Multi-Model Governance Matrix</h3>
-<table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; border: 1px solid #ddd;">
-    <thead>
-        <tr style="background-color: var(--soft-bg); text-align: left;">
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Model Type</th>
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Examples (Local-First)</th>
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Lifecycle Strategy</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Generative Foundation</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Llama-3.1, Mistral, Qwen</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Version-pinned; strict temperature/context locking.</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Embedding Layer</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">nomic-embed-text</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Deterministic chunk overlap; drift detection enabled.</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Trust Verifiers</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Hallucination/Claim Checkers</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Continuous evaluation against "Golden Query" datasets.</td>
-        </tr>
-    </tbody>
-</table>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">2. The Model Lifecycle Pipeline (EA Control Gates)</h3>
-<p style="font-size: 0.95rem; color: #555;">To prevent "Model Sprawl" and "Hidden Hallucinations," we enforce four non-negotiable EA control gates:</p>
-
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
-    <div style="background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 8px; border-top: 4px solid var(--primary);">
-        <h4 style="margin-top: 0; color: var(--primary); font-size: 1rem;">🛡️ License & Policy Gate</h4>
-        <p style="font-size: 0.85rem; color: #444;">Verification of OSI-approved licenses and data residency compliance before model sourcing.</p>
-    </div>
-    <div style="background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 8px; border-top: 4px solid var(--primary);">
-        <h4 style="margin-top: 0; color: var(--primary); font-size: 1rem;">⚖️ Validation Gate</h4>
-        <p style="font-size: 0.85rem; color: #444;">Pre-production testing for prompt compliance, latency, and memory footprint on local hardware.</p>
-    </div>
-    <div style="background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 8px; border-top: 4px solid var(--primary);">
-        <h4 style="margin-top: 0; color: var(--primary); font-size: 1rem;">📦 Packaging Gate</h4>
-        <p style="font-size: 0.85rem; color: #444;">Wrapping models behind platform APIs to prevent direct agent invocation and ensure versioning.</p>
-    </div>
-    <div style="background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 8px; border-top: 4px solid var(--primary);">
-        <h4 style="margin-top: 0; color: var(--primary); font-size: 1rem;">📊 Observability Gate</h4>
-        <p style="font-size: 0.85rem; color: #444;">Continuous monitoring of refusal rates, hallucination flags, and confidence trends at runtime.</p>
-    </div>
-</div>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">3. Evolve & Retire: Controlled Model Succession</h3>
-<p style="font-size: 0.95rem; color: #555;">VaultRAG utilizes <strong>Shadow Mode</strong> and <strong>Canary Deployments</strong> to ensure zero breaking changes during model updates:</p>
-
-<div style="background: #263238; color: #80cbc4; padding: 20px; border-radius: 8px; font-family: 'Courier New', Courier, monospace; font-size: 0.85rem; line-height: 1.5; margin-top: 15px;">
-    <p style="margin: 0;"># Example: config/models/registry.yaml</p>
-    <p style="margin: 5px 0 0 0;">generation:</p>
-    <p style="margin: 0 0 0 20px;">default_model: mistral-7b@v0.2</p>
-    <p style="margin: 0 0 0 20px;">allowed_models:</p>
-    <p style="margin: 0 0 0 40px;">- mistral-7b@v0.2</p>
-    <p style="margin: 0 0 0 40px;">- llama-3.1-8b (Shadow_Mode_Active)</p>
-</div>
-
-<details style="margin: 30px 0; padding: 20px; background: var(--soft-bg); border-radius: 12px; border: 1px solid var(--accent);">
-    <summary style="font-size: 1.1em; font-weight: bold; cursor: pointer; color: var(--primary);">SAFe Alignment: Model as Architectural Runway</summary>
-    <div style="padding-top: 20px;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; background: white;">
-            <thead>
-                <tr style="background-color: var(--soft-bg);">
-                    <th style="padding: 10px; border: 1px solid #ddd;">SAFe Element</th>
-                    <th style="padding: 10px; border: 1px solid #ddd;">Model Lifecycle Integration</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Enabler Features</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">Validation harnesses and "Golden Query" dataset curation.</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">System Demo</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">Live model swaps demonstrating zero impact on agent logic.</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Inspect & Adapt</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">Drift reviews and audit log analysis to trigger model retirement.</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</details>
-
-<div style="background-color: var(--primary); color: #fff; padding: 25px; border-radius: 8px; margin-top: 40px;">
-    <h4 style="margin-top: 0; color: var(--accent);">Why This Lifecycle Matters</h4>
-    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 0;">
-        VaultRAG treats models as <strong>governed enterprise assets</strong>. This framework ensures that trust and auditability are maintained over the long term, transforming a chaotic open-source environment into a stable, <strong>CFO-ready</strong> intelligence utility.
-    </p>
-</div>
-            </section>
-
-        <section id="infrastructure">
-          <h2 style="color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px;">Infrastructure Architecture: The Sovereign Landing Zone</h2>
-
-<p style="font-size: 1.1rem; line-height: 1.6; color: #333;">
-    VaultRAG is architected as an <strong>Air-Gapped Intelligence Landing Zone</strong>. Unlike traditional cloud RAG, the infrastructure is intentionally minimal and local-first, providing deterministic, auditable execution without relying on external SaaS providers or proprietary runtimes.
-</p>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">1. Infrastructure Layers & Logic</h3>
-<p style="font-size: 0.95rem; color: #555; margin-bottom: 20px;">
-    We utilize a tiered isolation model to decouple agent processes from hardware, ensuring that security controls are enforced at every level of the stack.
-</p>
-
-
-
-<table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; border: 1px solid #ddd;">
-    <thead>
-        <tr style="background-color: var(--soft-bg); text-align: left;">
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Principle</th>
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Rationale</th>
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">EA Requirement</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Local-First</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Ensures data residency and total privacy.</td>
-            <td style="padding: 10px; border: 1px solid #ddd; color: #006064; font-weight: bold;">Zero Data Exfiltration</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Defense-in-Depth</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Assume model compromise; isolate model runtimes.</td>
-            <td style="padding: 10px; border: 1px solid #ddd; color: #006064; font-weight: bold;">Least Privilege Access</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Deterministic Execution</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Enterprise trust through repeatable results.</td>
-            <td style="padding: 10px; border: 1px solid #ddd; color: #006064; font-weight: bold;">Auditable by Design</td>
-        </tr>
-    </tbody>
-</table>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">2. Network Architecture: Zero-Trust Isolation</h3>
-<div style="background: #fdfdfd; border: 1px solid #eee; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-    <p style="font-size: 0.95rem; color: #444;">VaultRAG must function with the network physically disconnected. We apply a <strong>Strict Deny-All</strong> default policy:</p>
-    <ul style="line-height: 1.8; color: #444; font-size: 0.95rem;">
-        <li>🛡️ <strong>Outbound:</strong> Explicitly DENY; zero calls to public LLM APIs or telemetry servers.</li>
-        <li>🛡️ <strong>Inbound:</strong> Localhost only; access restricted to authenticated local users.</li>
-        <li>🛡️ <strong>Inter-process:</strong> Communication occurs via Unix sockets or secure loopback interfaces.</li>
-    </ul>
-</div>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">3. Deployment Topologies (EA-Approved)</h3>
-<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 15px;">
-    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <h4 style="color: var(--primary); font-size: 1rem; margin-top: 0;">💻 Developer Workstation</h4>
-        <p style="font-size: 0.85rem; color: #555;">Standard MVP/PoC setup using macOS/Linux with Python and Ollama daemon.</p>
-    </div>
-    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <h4 style="color: var(--primary); font-size: 1rem; margin-top: 0;">🏢 On-Prem Enterprise Node</h4>
-        <p style="font-size: 0.85rem; color: #555;">Dedicated departmental hardware with GPU acceleration and centralized local logging.</p>
-    </div>
-    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <h4 style="color: var(--primary); font-size: 1rem; margin-top: 0;">🔒 Air-Gapped High Security</h4>
-        <p style="font-size: 0.85rem; color: #555;">Strict OS hardening for defense/healthcare; no network; manual model ingestion only.</p>
-    </div>
-</div>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">4. SRE & Resilience: "Fail Closed" Logic</h3>
-<p style="font-size: 0.95rem; color: #555;">Managed via strict <strong>Error Budgets</strong> and local observability signals to ensure reliability during critical operations:</p>
-
-<div style="background-color: #f8f9fa; border-left: 5px solid var(--primary); padding: 20px; margin-top: 15px;">
-    <h4 style="margin-top: 0; color: var(--primary);">Infrastructure Safety Protocol</h4>
-    <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.9rem; color: #444;">
-        <li>🚀 <strong>Availability:</strong> Separate processes for Ollama and Chroma to prevent full-system cascades.</li>
-        <li>⚡ <strong>Resilience:</strong> If memory is low, system enters controlled degradation; fails to "No Answer" rather than hallucinating.</li>
-        <li>🛡️ <strong>Sandboxing:</strong> Read-only mounts for source documents; write-only append logs for audit trails.</li>
-    </ul>
-</div>
-
-<div style="background-color: #263238; color: #fff; padding: 25px; border-radius: 8px; margin-top: 40px;">
-    <h3 style="margin-top: 0; color: #80cbc4;">Executive Summary: Hardware Sovereignty</h3>
-    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 0;">
-        VaultRAG’s infrastructure transforms a chaotic AI runtime into a <strong>Governed Intelligence Utility</strong>. By enforcing total isolation and local hardware dependency, it effectively mitigates the multi-million dollar risk of data exfiltration while providing a replayable, auditable path for every response generated.
-    </p>
-</div>
-            </section>
-
-        
-
-        <section id="impact-outcomes">
-          <h2 style="color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px;">Impact & Outcomes: The Privacy-First Transformation</h2>
-
-<p style="font-size: 1.1rem; line-height: 1.6; color: #333;">
-    VaultRAG shifts the enterprise from a "Search-and-Find" model to a <strong>"Total Population Certainty"</strong> model for internal knowledge. By enforcing local-first execution and deterministic guardrails, the platform delivers measurable gains in productivity while maintaining an airtight security posture.
-</p>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">1. Hard-Dollar Impact: The "Audit-Proof" Knowledge Base</h3>
-<table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; border: 1px solid #ddd;">
-    <thead>
-        <tr style="background-color: var(--soft-bg); text-align: left;">
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Value Driver</th>
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Manual Baseline</th>
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">VaultRAG Outcome</th>
-            <th style="padding: 12px; border: 1px solid #ddd; color: var(--primary);">Strategic Impact</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Information Retrieval</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Manual keyword search in fragmented silos.</td>
-            <td style="padding: 10px; border: 1px solid #ddd; color: #2e7d32; font-weight: bold;">70–90% Reduction in Search Time</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Immediate productivity boost across HR, Ops, and Legal.</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Data Leakage Risk</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">SaaS RAG risks PII exfiltration to public LLMs.</td>
-            <td style="padding: 10px; border: 1px solid #ddd; color: #2e7d32; font-weight: bold;">Zero Data Exfiltration</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Suitable for Air-Gapped and Classified environments.</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">AI Trust Factor</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">"Black-box" hallucinations erode confidence.</td>
-            <td style="padding: 10px; border: 1px solid #ddd; color: #2e7d32; font-weight: bold;">100% Grounded with Citations</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Users trust refusals as much as answers.</td>
-        </tr>
-    </tbody>
-</table>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">2. Strategic Platform Outcomes</h3>
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
-    <div style="background: #e0f7fa; border: 1px solid var(--accent); padding: 20px; border-radius: 8px;">
-        <h4 style="margin-top: 0; color: #006064;">Architectural Runway</h4>
-        <p style="font-size: 0.9rem; margin-bottom: 0;">VaultRAG provides the foundation for multiple secure assistants (Legal, Engineering, SOPs) without re-solving trust or security for every new use case.</p>
-    </div>
-    <div style="background: #e0f7fa; border: 1px solid var(--accent); padding: 20px; border-radius: 8px;">
-        <h4 style="margin-top: 0; color: #006064;">Differentiated Portfolio Signal</h4>
-        <p style="font-size: 0.9rem; margin-bottom: 0;">Moves beyond "LLM wrappers" by demonstrating a governed, auditable, and open-source-first approach to agentic AI.</p>
-    </div>
-</div>
-
-<h3 style="color: var(--secondary); margin-top: 30px;">3. Outcome-to-Architecture Traceability (EA View)</h3>
-<p style="font-size: 0.95rem; color: #555;">This matrix connects business outcomes directly to the underlying architectural enablers:</p>
-
-<table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; border: 1px solid #ddd;">
-    <thead>
-        <tr style="background-color: var(--soft-bg);">
-            <th style="padding: 12px; border: 1px solid #ddd;">Desired Outcome</th>
-            <th style="padding: 12px; border: 1px solid #ddd;">Architectural Enabler</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd;">Faster Knowledge Access</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Hybrid Retrieval and Query Rewriting</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd;">Higher Trust & Reliability</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Platform Guardrails and Hallucination Detection</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd;">Scalable AI Assistants</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">Platform Abstraction Layer</td>
-        </tr>
-    </tbody>
-</table>
-
-<div style="background-color: var(--primary); color: #fff; padding: 25px; border-radius: 8px; margin-top: 40px;">
-    <h4 style="margin-top: 0; color: var(--accent);">The Sovereign Insight Dividend</h4>
-    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 0;">
-        By transitioning from a probabilistic "Black-Box" to a <strong>Deterministic Intelligence Platform</strong>, VaultRAG ensures that every dollar spent on AI delivers traceable value without introducing new vectors for proprietary data leakage. The Year-End Knowledge Audit becomes a "Non-Event".
-    </p>
-</div>
-            </section>
-
-    </div>
 </body>
 </html>
