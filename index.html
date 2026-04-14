@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VaultRAG — Local-first RAG for manufacturing · Architecture Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --steel-900: #0e1117;
+      --steel-800: #161c27;
+      --steel-700: #1e2535;
+      --steel-600: #262f42;
+      --steel-500: #344057;
+      --steel-400: #4a5568;
+      --steel-300: #718096;
+      --steel-200: #a0aec0;
+      --steel-100: #cbd5e0;
+      --steel-50:  #e8edf5;
+
+      --amber-500: #f59e0b;
+      --amber-400: #fbbf24;
+      --amber-300: #fcd34d;
+      --amber-600: #d97706;
+      --amber-glow: rgba(245,158,11,0.15);
+      --amber-glow-strong: rgba(245,158,11,0.25);
+
+      --danger: #ef4444;
+      --success: #10b981;
+      --info: #3b82f6;
+
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--steel-900);
+      color: var(--steel-100);
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(14,17,23,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(245,158,11,0.15);
+    }
+
+    .nav-brand {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 0.08em;
+      color: var(--amber-400);
+      text-decoration: none;
+    }
+
+    .nav-brand span { color: var(--steel-300); font-weight: 300; }
+
+    nav ul {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    nav a {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--steel-300);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--amber-400); }
+
+    .nav-github {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber-400) !important;
+      border: 1px solid var(--amber-500);
+      padding: 6px 14px;
+      border-radius: 2px;
+      transition: background 0.2s, color 0.2s !important;
+    }
+
+    .nav-github:hover {
+      background: var(--amber-500) !important;
+      color: var(--steel-900) !important;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 48px 80px;
+      overflow: hidden;
+    }
+
+
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber-500);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      max-width: 800px;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--amber-400);
+    }
+
+    .hero-title strong {
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--steel-200);
+      max-width: 620px;
+      line-height: 1.75;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.35s forwards;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 64px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.45s forwards;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 2px;
+      border: 1px solid var(--steel-600);
+      color: var(--steel-300);
+      background: rgba(38,47,66,0.6);
+    }
+
+    .tag-amber {
+      border-color: rgba(245,158,11,0.4);
+      color: var(--amber-400);
+      background: rgba(245,158,11,0.06);
+    }
+
+    /* ── METRICS STRIP ── */
+    .metrics-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--steel-700);
+      border: 1px solid var(--steel-700);
+      border-radius: 4px;
+      overflow: hidden;
+      max-width: 900px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.55s forwards;
+    }
+
+    .metric {
+      background: var(--steel-800);
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--amber-500);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s;
+    }
+
+    .metric:hover::before { transform: scaleX(1); }
+
+    .metric-value {
+      font-family: var(--font-display);
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--amber-400);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .metric-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--steel-300);
+      margin-bottom: 4px;
+    }
+
+    .metric-desc {
+      font-size: 0.78rem;
+      color: var(--steel-400);
+      line-height: 1.4;
+    }
+
+    /* ── SECTION COMMONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 48px;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber-500);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--amber-600);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .section-title em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--amber-400);
+    }
+
+    .section-intro {
+      font-size: 1rem;
+      color: var(--steel-200);
+      max-width: 680px;
+      line-height: 1.8;
+      margin-bottom: 64px;
+    }
+
+    /* ── NARRATIVE SPLIT ── */
+    .narrative-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--steel-700);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 80px;
+    }
+
+    .narrative-card {
+      background: var(--steel-800);
+      padding: 48px 40px;
+      position: relative;
+    }
+
+    .narrative-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    .narrative-card.business::before { background: var(--amber-500); }
+    .narrative-card.human::before { background: var(--danger); }
+
+    .narrative-type {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .narrative-card.business .narrative-type { color: var(--amber-500); }
+    .narrative-card.human .narrative-type { color: var(--danger); }
+
+    .narrative-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .narrative-card p {
+      font-size: 0.95rem;
+      color: var(--steel-200);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .narrative-stat {
+      margin-top: 32px;
+      padding: 20px;
+      background: var(--steel-700);
+      border-radius: 3px;
+      border-left: 3px solid;
+    }
+
+    .narrative-card.business .narrative-stat { border-color: var(--amber-500); }
+    .narrative-card.human .narrative-stat { border-color: var(--danger); }
+
+    .narrative-stat-value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--amber-400);
+      line-height: 1;
+    }
+
+    .narrative-card.human .narrative-stat-value { color: #fc8181; }
+
+    .narrative-stat-desc {
+      font-size: 0.82rem;
+      color: var(--steel-300);
+      margin-top: 4px;
+    }
+
+    /* ── FORCING FUNCTIONS ── */
+    .forces-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      background: var(--steel-700);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .force-card {
+      background: var(--steel-800);
+      padding: 40px;
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .force-card:hover { background: var(--steel-700); }
+
+    .force-number {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      color: var(--amber-600);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .force-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .force-body {
+      font-size: 0.9rem;
+      color: var(--steel-200);
+      line-height: 1.75;
+    }
+
+    .force-signal {
+      margin-top: 20px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--amber-500);
+      letter-spacing: 0.1em;
+      padding: 6px 10px;
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    /* ── ARCHITECTURE DIAGRAM ── */
+    .arch-diagram {
+      background: var(--steel-800);
+      border: 1px solid var(--steel-600);
+      border-radius: 6px;
+      padding: 48px;
+      margin-top: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .arch-title {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--steel-300);
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .arch-title::before {
+      content: '';
+      width: 8px; height: 8px;
+      background: var(--amber-500);
+      border-radius: 50%;
+    }
+
+    /* SVG Diagram */
+    .arch-svg {
+      width: 100%;
+      overflow: visible;
+    }
+
+    /* ── PIPELINE FLOW ── */
+    .pipeline-section {
+      background: var(--steel-800);
+      border: 1px solid var(--steel-600);
+      border-radius: 6px;
+      padding: 48px;
+      margin-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pipeline-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber-500);
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pipeline-label::before {
+      content: '';
+      width: 8px; height: 8px;
+      background: var(--amber-500);
+      border-radius: 50%;
+    }
+
+    .pipeline-steps {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .pipeline-step {
+      flex: 1;
+      min-width: 130px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .pipeline-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 32px;
+      right: -20px;
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--amber-600), var(--amber-500));
+      z-index: 2;
+    }
+
+    .pipeline-step:not(:last-child)::before {
+      content: '▶';
+      position: absolute;
+      top: 24px;
+      right: -10px;
+      font-size: 0.6rem;
+      color: var(--amber-500);
+      z-index: 3;
+    }
+
+    .step-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 4px;
+      background: var(--steel-700);
+      border: 1px solid var(--steel-600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .pipeline-step:hover .step-icon {
+      border-color: var(--amber-500);
+      background: rgba(245,158,11,0.08);
+    }
+
+    .step-name {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--steel-300);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .step-guard {
+      font-size: 0.58rem;
+      color: var(--amber-600);
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--steel-600), transparent);
+      margin: 0 48px;
+    }
+
+    /* ── BOTTOM CTA ── */
+    .cta-bar {
+      background: var(--steel-800);
+      border-top: 1px solid var(--steel-700);
+      border-bottom: 1px solid var(--steel-700);
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .cta-text {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .cta-text em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--amber-400);
+    }
+
+    .cta-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 2px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--amber-500);
+      color: var(--steel-900);
+      font-weight: 700;
+    }
+
+    .btn-primary:hover { background: var(--amber-400); }
+
+    .btn-ghost {
+      border: 1px solid var(--steel-500);
+      color: var(--steel-200);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--amber-500);
+      color: var(--amber-400);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--steel-800);
+    }
+
+    footer p {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--steel-500);
+      text-transform: uppercase;
+    }
+
+    footer a {
+      color: var(--steel-400);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--amber-400); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse-amber {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.4); }
+      50%       { box-shadow: 0 0 0 6px rgba(245,158,11,0); }
+    }
+
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+
+    .scroll-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      nav ul { display: none; }
+      .hero { padding: 100px 24px 60px; }
+      section { padding: 60px 24px; }
+      .narrative-grid, .forces-grid { grid-template-columns: 1fr; }
+      .metrics-strip { grid-template-columns: repeat(2, 1fr); }
+      .arch-diagram, .pipeline-section { padding: 28px; }
+      .cta-bar { padding: 28px 24px; }
+      footer { padding: 28px 24px; flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     NAV
+══════════════════════════════════════════ -->
+<nav>
+  <a class="nav-brand" href="index.html">VAULT<span>RAG</span></a>
+  <ul>
+    <li><a href="#why-now">Why Now</a></li>
+    <li><a href="#problem">The Problem</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="page-02.html">Problem Deep Dive →</a></li>
+    <li><a href="page-03.html">Architecture →</a></li>
+    <li><a href="page-04.html">Simulator →</a></li>
+    <li><a href="https://github.com/raosiddharthp/VaultRAG" class="nav-github">GitHub →</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section class="hero">
+
+  <p class="hero-eyebrow">Architecture Portfolio · 2026 · Manufacturing · Enterprise AI</p>
+
+  <h1 class="hero-title">
+    VaultRAG — local-first RAG<br>
+    for constrained manufacturing environments
+  </h1>
+
+  <p class="hero-sub">
+    A design study in voice-first document retrieval for factory floor use. The architecture is built around three constraints that exclude cloud RAG services: data sovereignty requirements, air-gapped network conditions, and zero ongoing API cost. All inference runs on-prem. This portfolio documents the design decisions, trade-offs, and known limitations.
+  </p>
+
+  <div class="hero-tags">
+    <span class="tag tag-amber">Voice-first interface</span>
+    <span class="tag tag-amber">On-prem LLM inference</span>
+    <span class="tag tag-amber">Local vector store</span>
+    <span class="tag">LlamaIndex</span>
+    <span class="tag">ChromaDB</span>
+    <span class="tag">Ollama · Llama 3.2</span>
+    <span class="tag">5-layer guardrails</span>
+    <span class="tag">FastAPI · Docker</span>
+    <span class="tag">Portfolio prototype</span>
+  </div>
+
+  <div class="metrics-strip">
+    <div class="metric">
+      <div class="metric-value">$260K</div>
+      <div class="metric-label">Per hour</div>
+      <div class="metric-desc">Average cost of unplanned manufacturing downtime · Aberdeen Group</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">18 min</div>
+      <div class="metric-label">Per search</div>
+      <div class="metric-desc">Average time to locate the correct procedure under fault conditions</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">On-prem</div>
+      <div class="metric-label">Inference target</div>
+      <div class="metric-desc">Production deployment: no data leaves the facility network. Demo runs on HuggingFace Spaces.</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">&lt; 8s</div>
+      <div class="metric-label">To answer</div>
+      <div class="metric-desc">From voice query to cited, step-by-step procedure response</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     WHY NOW
+══════════════════════════════════════════ -->
+<section id="why-now">
+  <div class="section-label">01 — Design context</div>
+  <h2 class="section-title">Four conditions that make this architecture viable</h2>
+  <p class="section-intro">
+    The manufacturing knowledge retrieval problem is not new. What changed between 2022 and 2024 is the availability of open-source components capable of running the full RAG pipeline locally — without cloud dependencies, without API costs, and without sending proprietary documents outside the facility network.
+  </p>
+
+    <div class="forces-grid scroll-reveal">
+      <div class="force-card">
+        <div class="force-number">Condition — 01</div>
+        <div class="force-title">Small local LLMs reached usable instruction-following quality</div>
+        <p class="force-body">
+          Llama 3.2 3B runs on commodity hardware with instruction-following quality sufficient for structured procedure retrieval. A model capable of reading a 400-page equipment manual and returning the relevant procedure now runs entirely on a facility server — no API calls, no internet dependency at inference time.
+        </p>
+        <span class="force-signal">Llama 3.2 · Meta · 2024</span>
+      </div>
+
+      <div class="force-card">
+        <div class="force-number">Condition — 02</div>
+        <div class="force-title">Browser-native voice input removed the app-install barrier</div>
+        <p class="force-body">
+          The Web Speech API is supported natively in every modern mobile browser. A technician can speak a query one-handed without installing anything. In the production deployment this is replaced by local Whisper STT to eliminate the external STT backend dependency — that trade-off is documented in ADR-005.
+        </p>
+        <span class="force-signal">Web Speech API · Baseline 2023</span>
+      </div>
+
+      <div class="force-card">
+        <div class="force-number">Condition — 03</div>
+        <div class="force-title">Embedded vector stores made local semantic search viable</div>
+        <p class="force-body">
+          ChromaDB and similar embedded stores reduced the retrieval layer to a single dependency with persistent local storage. Semantic search over a facility's document corpus now requires no external service, no managed database, and no ongoing cost — making it deployable inside an air-gapped network.
+        </p>
+        <span class="force-signal">ChromaDB · Apache 2.0 · 2024</span>
+      </div>
+
+      <div class="force-card">
+        <div class="force-number">Condition — 04</div>
+        <div class="force-title">Data sovereignty requirements exclude cloud RAG services</div>
+        <p class="force-body">
+          Manufacturing firms in aerospace, automotive, and defence supply chains increasingly prohibit sending proprietary process data to third-party APIs. This contractual constraint — not a preference — architecturally excludes cloud-hosted RAG services and creates a genuine requirement for the on-prem pattern this project addresses.
+        </p>
+        <span class="force-signal">ISO 27001 · ITAR · NDA clauses</span>
+      </div>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     THE PROBLEM (TEASER)
+══════════════════════════════════════════ -->
+<section id="problem">
+  <div class="section-label">02 — The problem</div>
+  <h2 class="section-title">The knowledge retrieval gap in manufacturing operations</h2>
+  <p class="section-intro">
+    The design scenario addresses two related problems: a business cost measured in downtime and rework, and an operational constraint measured in the time it takes a technician to locate and apply the correct procedure under fault conditions. Both are documented in detail on page 02.
+  </p>
+
+  <div class="narrative-grid scroll-reveal">
+    <div class="narrative-card business">
+      <div class="narrative-type">Business dimension</div>
+      <h3>Technical documentation that cannot be queried under fault conditions</h3>
+      <p>
+        A mid-size manufacturer typically maintains 12,000–40,000 pages of technical documentation — equipment manuals, ISO-controlled SOPs, non-conformance reports, maintenance logs. This documentation exists as PDFs on network drives and printed binders. It is not queryable. When a machine faults, the retrieval process is manual, sequential, and slow.
+      </p>
+      <p>
+        Every minute of that search is unplanned downtime. Every wrong procedure is extended downtime plus a potential non-conformance record. The cost is documented; the retrieval mechanism has not changed.
+      </p>
+      <div class="narrative-stat">
+        <div class="narrative-stat-value">$260K/hr</div>
+        <div class="narrative-stat-desc">Average unplanned downtime cost in general manufacturing · Aberdeen Group via Oxmaint 2024</div>
+      </div>
+    </div>
+
+    <div class="narrative-card human">
+      <div class="narrative-type">Operational dimension</div>
+      <h3>A retrieval failure under operational constraints, not a knowledge failure</h3>
+      <p>
+        The Haas CNC has thrown an E-04 fault the floor hasn't seen before. The line is stopped. The manual is a 380-page PDF on a laptop forty metres away. The technician asks a colleague who thinks he remembers the procedure. They apply it. The fault clears and returns two hours later — now a recurring incident in the NCR log.
+      </p>
+      <p>
+        The knowledge existed in the documentation. The failure was retrieval: noise, distance, time pressure, and no device suitable for navigating a 380-page PDF one-handed under a running machine.
+      </p>
+      <div class="narrative-stat" style="border-color: var(--danger);">
+        <div class="narrative-stat-value" style="color: #fc8181;">23%</div>
+        <div class="narrative-stat-desc">Of unplanned manufacturing stoppages attributable to human error on the floor, including wrong or incomplete procedure application · ABB / Plutomen 2024</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top: 32px;">
+    <a href="page-02.html" class="btn btn-primary">Full problem analysis — page 02 →</a>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     ARCHITECTURE — 30,000 FT
+══════════════════════════════════════════ -->
+<section id="architecture">
+  <div class="section-label">03 — Architecture overview</div>
+  <h2 class="section-title">Three-layer design — field interface, RAG core, document store</h2>
+  <p class="section-intro">
+    The architecture separates concerns across three layers. In the target production deployment, all three layers run inside the facility network: no data crosses the boundary at any point. The portfolio demo runs on HuggingFace Spaces with browser-native STT — those are documented exceptions that apply to the prototype only. The diagram below reflects the production architecture.
+  </p>
+
+  <!-- SYSTEM ARCHITECTURE DIAGRAM -->
+  <div class="arch-diagram scroll-reveal">
+    <div class="arch-title">System architecture — production deployment model · Three-layer design</div>
+
+    <svg class="arch-svg" viewBox="0 0 960 520" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#f59e0b" opacity="0.8"/>
+        </marker>
+        <marker id="arrow-gray" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#4a5568" opacity="0.8"/>
+        </marker>
+      </defs>
+
+      <!-- Layer backgrounds -->
+      <!-- Layer 1: Mobile / Field -->
+      <rect x="8" y="8" width="200" height="504" rx="4" fill="#161c27" stroke="#344057" stroke-width="1"/>
+      <rect x="8" y="8" width="200" height="4" rx="2" fill="#f59e0b"/>
+      <text x="108" y="32" text-anchor="middle" font-size="8" fill="#f59e0b" letter-spacing="2" font-weight="500">LAYER 01</text>
+      <text x="108" y="48" text-anchor="middle" font-size="9.5" fill="#a0aec0" letter-spacing="1">Field Interface</text>
+
+      <!-- Layer 2: RAG Core -->
+      <rect x="228" y="8" width="504" height="504" rx="4" fill="#161c27" stroke="#344057" stroke-width="1"/>
+      <rect x="228" y="8" width="504" height="4" rx="2" fill="#3b82f6"/>
+      <text x="480" y="32" text-anchor="middle" font-size="8" fill="#60a5fa" letter-spacing="2" font-weight="500">LAYER 02</text>
+      <text x="480" y="48" text-anchor="middle" font-size="9.5" fill="#a0aec0" letter-spacing="1">RAG Intelligence Core</text>
+
+      <!-- Layer 3: Data & Docs -->
+      <rect x="752" y="8" width="200" height="504" rx="4" fill="#161c27" stroke="#344057" stroke-width="1"/>
+      <rect x="752" y="8" width="200" height="4" rx="2" fill="#10b981"/>
+      <text x="852" y="32" text-anchor="middle" font-size="8" fill="#34d399" letter-spacing="2" font-weight="500">LAYER 03</text>
+      <text x="852" y="48" text-anchor="middle" font-size="9.5" fill="#a0aec0" letter-spacing="1">Data &amp; Documents</text>
+
+      <!-- ── LAYER 1 COMPONENTS ── -->
+      <!-- Phone mockup -->
+      <rect x="58" y="72" width="100" height="170" rx="10" fill="#1e2535" stroke="#344057" stroke-width="1.5"/>
+      <rect x="68" y="84" width="80" height="124" rx="4" fill="#0e1117"/>
+      <!-- Screen content -->
+      <rect x="72" y="88" width="72" height="10" rx="2" fill="#262f42"/>
+      <rect x="72" y="102" width="50" height="8" rx="2" fill="#344057"/>
+      <rect x="72" y="114" width="60" height="8" rx="2" fill="#262f42"/>
+      <rect x="72" y="128" width="44" height="8" rx="2" fill="#344057"/>
+      <!-- Voice button -->
+      <circle cx="108" cy="158" r="10" fill="#f59e0b"/>
+      <text x="108" y="162" text-anchor="middle" font-size="10" fill="#0e1117">🎙</text>
+      <!-- Home indicator -->
+      <rect x="93" y="228" width="30" height="3" rx="1.5" fill="#344057"/>
+
+      <text x="108" y="262" text-anchor="middle" font-size="8" fill="#a0aec0" letter-spacing="1">MOBILE PWA</text>
+      <text x="108" y="275" text-anchor="middle" font-size="7.5" fill="#718096">Browser · No install</text>
+
+      <!-- Voice input box -->
+      <rect x="28" y="290" width="160" height="48" rx="3" fill="#1e2535" stroke="#344057"/>
+      <text x="108" y="309" text-anchor="middle" font-size="7.5" fill="#f59e0b" letter-spacing="1">WEB SPEECH API</text>
+      <text x="108" y="323" text-anchor="middle" font-size="7" fill="#718096">Voice → Text · Demo only</text>
+      <text x="108" y="333" text-anchor="middle" font-size="6.5" fill="#4a5568">v1.0: local Whisper STT</text>
+
+      <!-- Plant WiFi note -->
+      <rect x="28" y="352" width="160" height="40" rx="3" fill="#1e2535" stroke="#262f42"/>
+      <text x="108" y="368" text-anchor="middle" font-size="7.5" fill="#718096" letter-spacing="0.5">PLANT WIFI</text>
+      <text x="108" y="382" text-anchor="middle" font-size="7" fill="#4a5568">Internal network only</text>
+
+      <!-- Fallback text note -->
+      <rect x="28" y="406" width="160" height="40" rx="3" fill="#1e2535" stroke="#262f42"/>
+      <text x="108" y="422" text-anchor="middle" font-size="7.5" fill="#718096" letter-spacing="0.5">TEXT FALLBACK</text>
+      <text x="108" y="436" text-anchor="middle" font-size="7" fill="#4a5568">Keyboard input backup</text>
+
+      <!-- ── LAYER 2 COMPONENTS ── -->
+      <!-- FastAPI Gateway -->
+      <rect x="248" y="64" width="140" height="60" rx="3" fill="#1e2535" stroke="#4a5568" stroke-width="1"/>
+      <text x="318" y="84" text-anchor="middle" font-size="8" fill="#60a5fa" letter-spacing="1.5">FASTAPI GATEWAY</text>
+      <text x="318" y="98" text-anchor="middle" font-size="7" fill="#718096">HTTP · JSON</text>
+      <text x="318" y="110" text-anchor="middle" font-size="7" fill="#4a5568">Auth · Rate limit</text>
+
+      <!-- Guardrail Pipeline -->
+      <rect x="248" y="148" width="460" height="240" rx="3" fill="#0e1117" stroke="#344057" stroke-dasharray="4,3"/>
+      <text x="478" y="168" text-anchor="middle" font-size="7.5" fill="#f59e0b" letter-spacing="2">5-LAYER GUARDRAIL PIPELINE</text>
+
+      <!-- G1: Query Normaliser -->
+      <rect x="260" y="178" width="80" height="56" rx="3" fill="#1e2535" stroke="#d97706" stroke-width="1"/>
+      <text x="300" y="196" text-anchor="middle" font-size="7" fill="#f59e0b" letter-spacing="0.5">G1</text>
+      <text x="300" y="208" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Query</text>
+      <text x="300" y="220" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Normaliser</text>
+      <text x="300" y="231" text-anchor="middle" font-size="6.5" fill="#718096">Voice denoising</text>
+
+      <!-- G2: Scope Guard -->
+      <rect x="352" y="178" width="80" height="56" rx="3" fill="#1e2535" stroke="#d97706" stroke-width="1"/>
+      <text x="392" y="196" text-anchor="middle" font-size="7" fill="#f59e0b" letter-spacing="0.5">G2</text>
+      <text x="392" y="208" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Scope</text>
+      <text x="392" y="220" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Guard</text>
+      <text x="392" y="231" text-anchor="middle" font-size="6.5" fill="#718096">Off-topic reject</text>
+
+      <!-- G3: Confidence Threshold -->
+      <rect x="444" y="178" width="80" height="56" rx="3" fill="#1e2535" stroke="#d97706" stroke-width="1"/>
+      <text x="484" y="196" text-anchor="middle" font-size="7" fill="#f59e0b" letter-spacing="0.5">G3</text>
+      <text x="484" y="208" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Confidence</text>
+      <text x="484" y="220" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Threshold</text>
+      <text x="484" y="231" text-anchor="middle" font-size="6.5" fill="#718096">Low score refuse</text>
+
+      <!-- G4: Safety Flag -->
+      <rect x="536" y="178" width="80" height="56" rx="3" fill="#1e2535" stroke="#ef4444" stroke-width="1"/>
+      <text x="576" y="196" text-anchor="middle" font-size="7" fill="#fc8181" letter-spacing="0.5">G4</text>
+      <text x="576" y="208" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Safety</text>
+      <text x="576" y="220" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Flag</text>
+      <text x="576" y="231" text-anchor="middle" font-size="6.5" fill="#718096">LOTO / hazard warn</text>
+
+      <!-- G5: Citation Enforcer -->
+      <rect x="628" y="178" width="72" height="56" rx="3" fill="#1e2535" stroke="#10b981" stroke-width="1"/>
+      <text x="664" y="196" text-anchor="middle" font-size="7" fill="#34d399" letter-spacing="0.5">G5</text>
+      <text x="664" y="208" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Citation</text>
+      <text x="664" y="220" text-anchor="middle" font-size="7.5" fill="#cbd5e0">Enforcer</text>
+      <text x="664" y="231" text-anchor="middle" font-size="6.5" fill="#718096">Source required</text>
+
+      <!-- Arrows between guardrails -->
+      <line x1="340" y1="206" x2="352" y2="206" stroke="#f59e0b" stroke-width="1" marker-end="url(#arrow)" opacity="0.7"/>
+      <line x1="432" y1="206" x2="444" y2="206" stroke="#f59e0b" stroke-width="1" marker-end="url(#arrow)" opacity="0.7"/>
+      <line x1="524" y1="206" x2="536" y2="206" stroke="#f59e0b" stroke-width="1" marker-end="url(#arrow)" opacity="0.7"/>
+      <line x1="616" y1="206" x2="628" y2="206" stroke="#f59e0b" stroke-width="1" marker-end="url(#arrow)" opacity="0.7"/>
+
+      <!-- Retrieval row -->
+      <rect x="260" y="254" width="460" height="50" rx="3" fill="#1e2535" stroke="#344057"/>
+      <text x="490" y="274" text-anchor="middle" font-size="7.5" fill="#60a5fa" letter-spacing="1.5">CHROMADB RETRIEVAL  ·  top-k=3  ·  nomic-embed-text  ·  cosine similarity</text>
+      <text x="490" y="290" text-anchor="middle" font-size="7" fill="#4a5568">Persistent local vector store  ·  procedural chunking  ·  similarity threshold: 0.70</text>
+
+      <!-- LLM row -->
+      <rect x="260" y="318" width="460" height="50" rx="3" fill="#1e2535" stroke="#344057"/>
+      <text x="490" y="338" text-anchor="middle" font-size="7.5" fill="#a78bfa" letter-spacing="1.5">OLLAMA  ·  LLAMA 3.2 · 3B INSTRUCT  ·  LOCAL INFERENCE</text>
+      <text x="490" y="354" text-anchor="middle" font-size="7" fill="#4a5568">System prompt: step-by-step · max 5 steps · citation mandatory · safety prefix on G4 trigger</text>
+
+      <!-- LlamaIndex orchestrator -->
+      <rect x="248" y="400" width="460" height="50" rx="3" fill="#262f42" stroke="#4a5568"/>
+      <text x="478" y="420" text-anchor="middle" font-size="8" fill="#e2e8f0" letter-spacing="1.5">LLAMAINDEX ORCHESTRATOR</text>
+      <text x="478" y="436" text-anchor="middle" font-size="7" fill="#718096">Query engine · Document ingestion pipeline · Index management · Response synthesis</text>
+
+      <!-- ── LAYER 3 COMPONENTS ── -->
+      <!-- Doc types -->
+      <rect x="768" y="64" width="168" height="52" rx="3" fill="#1e2535" stroke="#2d6a4f"/>
+      <text x="852" y="82" text-anchor="middle" font-size="7.5" fill="#34d399" letter-spacing="1">EQUIPMENT MANUALS</text>
+      <text x="852" y="96" text-anchor="middle" font-size="7" fill="#718096">PDF · Structured procedures</text>
+      <text x="852" y="108" text-anchor="middle" font-size="6.5" fill="#4a5568">Haas, Fanuc, ABB, Siemens</text>
+
+      <rect x="768" y="130" width="168" height="52" rx="3" fill="#1e2535" stroke="#2d6a4f"/>
+      <text x="852" y="148" text-anchor="middle" font-size="7.5" fill="#34d399" letter-spacing="1">SOPs &amp; WORK INSTR.</text>
+      <text x="852" y="162" text-anchor="middle" font-size="7" fill="#718096">PDF · TXT · Markdown</text>
+      <text x="852" y="174" text-anchor="middle" font-size="6.5" fill="#4a5568">ISO 9001 · AS9100 controlled</text>
+
+      <rect x="768" y="196" width="168" height="52" rx="3" fill="#1e2535" stroke="#2d6a4f"/>
+      <text x="852" y="214" text-anchor="middle" font-size="7.5" fill="#34d399" letter-spacing="1">INCIDENT / NCR REPORTS</text>
+      <text x="852" y="228" text-anchor="middle" font-size="7" fill="#718096">PDF · Structured text</text>
+      <text x="852" y="240" text-anchor="middle" font-size="6.5" fill="#4a5568">Non-conformance records</text>
+
+      <!-- Ingestion pipeline -->
+      <rect x="768" y="262" width="168" height="64" rx="3" fill="#262f42" stroke="#4a5568"/>
+      <text x="852" y="280" text-anchor="middle" font-size="7.5" fill="#a0aec0" letter-spacing="1">INGESTION PIPELINE</text>
+      <text x="852" y="294" text-anchor="middle" font-size="7" fill="#718096">PyMuPDF parsing</text>
+      <text x="852" y="307" text-anchor="middle" font-size="7" fill="#718096">Procedural chunking</text>
+      <text x="852" y="320" text-anchor="middle" font-size="7" fill="#718096">nomic-embed-text</text>
+
+      <!-- Vector store -->
+      <rect x="768" y="340" width="168" height="52" rx="3" fill="#1e2535" stroke="#2d6a4f"/>
+      <text x="852" y="358" text-anchor="middle" font-size="7.5" fill="#34d399" letter-spacing="1">CHROMADB</text>
+      <text x="852" y="372" text-anchor="middle" font-size="7" fill="#718096">Persistent embeddings</text>
+      <text x="852" y="384" text-anchor="middle" font-size="6.5" fill="#4a5568">Local disk · No cloud</text>
+
+      <!-- Air gap note -->
+      <rect x="768" y="406" width="168" height="52" rx="3" fill="#0e1117" stroke="#344057" stroke-dasharray="4,3"/>
+      <text x="852" y="421" text-anchor="middle" font-size="7" fill="#718096" letter-spacing="1">AIR-GAP BOUNDARY</text>
+      <text x="852" y="434" text-anchor="middle" font-size="6.5" fill="#4a5568">Production deployment only</text>
+      <text x="852" y="446" text-anchor="middle" font-size="6.5" fill="#4a5568">Not enforced in demo</text>
+
+      <!-- ── FLOW ARROWS BETWEEN LAYERS ── -->
+      <!-- Phone → FastAPI -->
+      <line x1="228" y1="94" x2="248" y2="94" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="238" y="88" text-anchor="middle" font-size="6.5" fill="#d97706">HTTP</text>
+
+      <!-- FastAPI → Guardrails -->
+      <line x1="318" y1="124" x2="318" y2="148" stroke="#60a5fa" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.7"/>
+
+      <!-- Guardrails → Retrieval -->
+      <line x1="490" y1="234" x2="490" y2="254" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.7"/>
+
+      <!-- Retrieval → LLM -->
+      <line x1="490" y1="304" x2="490" y2="318" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.7"/>
+
+      <!-- LLM → Orchestrator -->
+      <line x1="490" y1="368" x2="490" y2="400" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.7"/>
+
+      <!-- Retrieval ↔ ChromaDB -->
+      <line x1="720" y1="279" x2="768" y2="370" stroke="#10b981" stroke-width="1" marker-end="url(#arrow)" stroke-dasharray="3,2" opacity="0.6"/>
+
+      <!-- Ingestion → ChromaDB -->
+      <line x1="852" y1="326" x2="852" y2="340" stroke="#34d399" stroke-width="1" marker-end="url(#arrow)" opacity="0.7"/>
+
+      <!-- Response back arrow -->
+      <path d="M 248 440 Q 140 480 108 440" stroke="#718096" stroke-width="1" fill="none" stroke-dasharray="3,2" marker-end="url(#arrow-gray)" opacity="0.5"/>
+      <text x="172" y="494" text-anchor="middle" font-size="6.5" fill="#4a5568">Cited response</text>
+
+    </svg>
+  </div>
+
+  <!-- GUARDRAIL PIPELINE DETAIL -->
+  <div class="pipeline-section scroll-reveal">
+    <div class="pipeline-label">Guardrail pipeline — request flow · 5 sequential layers</div>
+    <div class="pipeline-steps">
+      <div class="pipeline-step">
+        <div class="step-icon">🎙</div>
+        <div class="step-name">Voice<br>Input</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon" style="border-color: rgba(245,158,11,0.5)">G1</div>
+        <div class="step-name">Query<br>Normaliser</div>
+        <div class="step-guard">Pre-retrieval</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon" style="border-color: rgba(245,158,11,0.5)">G2</div>
+        <div class="step-name">Scope<br>Guard</div>
+        <div class="step-guard">Pre-retrieval</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon">🔍</div>
+        <div class="step-name">ChromaDB<br>Retrieval</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon" style="border-color: rgba(245,158,11,0.5)">G3</div>
+        <div class="step-name">Confidence<br>Threshold</div>
+        <div class="step-guard">Post-retrieval</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon" style="border-color: rgba(239,68,68,0.5)">G4</div>
+        <div class="step-name">Safety<br>Flag</div>
+        <div class="step-guard">Pre-generation</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon">🤖</div>
+        <div class="step-name">Llama 3.2<br>Generation</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon" style="border-color: rgba(16,185,129,0.5)">G5</div>
+        <div class="step-name">Citation<br>Enforcer</div>
+        <div class="step-guard">Post-generation</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-icon">📋</div>
+        <div class="step-name">Cited<br>Response</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top: 40px;">
+    <a href="page-03.html" class="btn btn-primary" style="margin-right:12px;">Architecture & design decisions →</a>
+    <a href="page-04.html" class="btn btn-ghost">Run the simulator →</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CTA BAR
+══════════════════════════════════════════ -->
+<div class="cta-bar">
+  <div class="cta-text">Architecture documentation — six sections</div>
+  <div class="cta-links">
+    <a href="page-02.html" class="btn btn-ghost">Problem analysis</a>
+    <a href="page-03.html" class="btn btn-ghost">Architecture &amp; decisions</a>
+    <a href="page-04.html" class="btn btn-primary">▶ Run the simulator</a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <p>VaultRAG · Architecture Portfolio · 2026 · <a href="https://github.com/raosiddharthp/VaultRAG">GitHub</a></p>
+  <p style="text-align:right;">Page 01 · The Concept · © 2026 Siddharth Rao</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.scroll-reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Metric counter animation
+  const metrics = document.querySelectorAll('.metric-value');
+  const metricObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '0';
+        e.target.style.transform = 'translateY(12px)';
+        e.target.style.transition = 'opacity 0.5s, transform 0.5s';
+        setTimeout(() => {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }, 100);
+        metricObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  metrics.forEach(m => metricObserver.observe(m));
+</script>
+
+</body>
+</html>
